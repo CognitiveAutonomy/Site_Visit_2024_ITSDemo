@@ -1,0 +1,5 @@
+  <EventSource Id="EventSourceId" Version="1" Name="EventSourceName">
+      <Sample Id="SampleId" Name="SampleName">
+          <Field Id="Value1"></Field>
+      </Sample>
+  </EventSource>
