@@ -242,7 +242,12 @@ def load_multi_game(device='joystick', name='no_name', control_mode=1, self_conf
             try:
                 SR_img = Image.open(SR_img_path)
                 width,height = SR_img.size
-                SR_img = SR_img.resize(((int(width/2), int(height/2))))
+                left = width/16
+                top = height/16
+                right = width/16*15
+                bottom = 15 * height / 16
+                SR_img = SR_img.crop((left, top, right, bottom))
+                SR_img = SR_img.resize(((int(width/1.5), int(height/1.5))))
                 SR_img_tk = ImageTk.PhotoImage(SR_img)  # Keep reference to the image
                 SR_panel = Label(pause_frame, image=SR_img_tk, bg='#fff', anchor=CENTER)
                 SR_panel.image = SR_img_tk  # Prevent image from being garbage collected
@@ -262,7 +267,7 @@ def load_multi_game(device='joystick', name='no_name', control_mode=1, self_conf
             bottom = 13 * height / 16
             T1_img = T1_img.crop((left, top, right, bottom))
             width,height = T1_img.size
-            T1_img = T1_img.resize(((int(width/3), int(height/3))))
+            T1_img = T1_img.resize(((int(width/2), int(height/2))))
             T1_tk =ImageTk.PhotoImage(T1_img)  # Keep reference to the image
             T1_panel = Label(pause_frame, image=T1_tk, bg='#fff', anchor=CENTER)
             T1_panel.grid_rowconfigure(1, weight=1)
@@ -270,7 +275,7 @@ def load_multi_game(device='joystick', name='no_name', control_mode=1, self_conf
 
             T2_img = Image.open('../assets/records/trial_data/'+name+'_trial_'+str(trial_num-3)+'_trajectory.png')
             T2_img = T2_img.crop((left, top, right, bottom))
-            T2_img = T2_img.resize((int(width/3), int(height/3)))
+            T2_img = T2_img.resize((int(width/2), int(height/2)))
             T2_tk =ImageTk.PhotoImage(T2_img)  # Keep reference to the image
             T2_panel = Label(pause_frame, image=T2_tk, bg='#fff', anchor=CENTER)
             T2_panel.grid_rowconfigure(1, weight=1)
@@ -278,7 +283,7 @@ def load_multi_game(device='joystick', name='no_name', control_mode=1, self_conf
 
             T3_img = Image.open('../assets/records/trial_data/'+name+'_trial_'+str(trial_num-2)+'_trajectory.png')
             T3_img = T3_img.crop((left, top, right, bottom))
-            T3_img = T3_img.resize(((int(width/3), int(height/3))))
+            T3_img = T3_img.resize(((int(width/2), int(height/2))))
             T3_tk =ImageTk.PhotoImage(T3_img)  # Keep reference to the image
             T3_panel = Label(pause_frame, image=T3_tk, bg='#fff', anchor=CENTER)
             T3_panel.grid_rowconfigure(1, weight=1)
@@ -286,7 +291,7 @@ def load_multi_game(device='joystick', name='no_name', control_mode=1, self_conf
 
             T4_img = Image.open('../assets/records/trial_data/'+name+'_trial_'+str(trial_num-1)+'_trajectory.png')
             T4_img = T4_img.crop((left, top, right, bottom))
-            T4_img = T4_img.resize(((int(width/3), int(height/3))))
+            T4_img = T4_img.resize(((int(width/2), int(height/2))))
             T4_tk =ImageTk.PhotoImage(T4_img)  # Keep reference to the image
             T4_panel = Label(pause_frame, image=T4_tk, bg='#fff', anchor=CENTER)
             T4_panel.grid_rowconfigure(1, weight=1)
@@ -294,7 +299,7 @@ def load_multi_game(device='joystick', name='no_name', control_mode=1, self_conf
 
             T5_img = Image.open('../assets/records/trial_data/'+name+'_trial_'+str(trial_num)+'_trajectory.png')
             T5_img = T5_img.crop((left, top, right, bottom))
-            T5_img = T5_img.resize(((int(width/3), int(height/3))))
+            T5_img = T5_img.resize(((int(width/2), int(height/2))))
             T5_tk =ImageTk.PhotoImage(T5_img)  # Keep reference to the image
             T5_panel = Label(pause_frame, image=T5_tk, bg='#fff', anchor=CENTER)
             T5_panel.grid_rowconfigure(1, weight=1)

@@ -29,17 +29,17 @@ class SR_Pause:
 
         fig = plt.figure(figsize=(15,10)) 
         plt.subplot(311)
-        plt.plot(self.trials, self.LearningStage, 'o-', linewidth=0.7),  # Performance plot
+        plt.plot(self.trials, self.LearningStage, 'o-', linewidth=1.5),  # Performance plot
         plt.scatter(self.trials, self.LearningStage)
         plt.xlim(0, self.trials[-1]+1)
         plt.ylim(0, 5)
+        plt.yticks(np.arange(1,4,1))
         plt.xticks(self.trials)
-        plt.yticks(np.arange(1,4,4))
         plt.xlabel("Trial")
         plt.ylabel("Learning Stage")
 
         plt.subplot(312)
-        plt.plot(self.trials, self.Performance, 'o-', linewidth=0.7),  # Performance plot
+        plt.plot(self.trials, self.Performance, 'o-', linewidth=1.5),  # Performance plot
         plt.scatter(self.trials, self.Performance)
         plt.xlim(0, self.trials[-1]+1)
         plt.ylim(-50, 1050)
@@ -49,19 +49,20 @@ class SR_Pause:
         plt.ylabel("Performance")
 
         plt.subplot(313)
-        plt.plot(self.trials, self.SelfConfidence, 'o-', linewidth=0.7, color='b')
+        plt.plot(self.trials, self.SelfConfidence, 'o-', linewidth=1.5, color='b')
         plt.scatter(self.trials, self.SelfConfidence, color='b')
         plt.yticks(np.arange(0,120,20))
+        plt.xticks(self.trials)
         plt.xlabel('Trial')
         plt.ylabel('Self-Confidence', color='b')
         plt.twinx()
-        plt.plot(self.trials, self.Workload, 'o-', linewidth=0.7, color='r')
+        plt.plot(self.trials, self.Workload, 'o-', linewidth=1.5, color='r')
         plt.scatter(self.trials, self.Workload, color='b')
         plt.yticks(np.arange(0,120,20))
         plt.ylabel('Workload', color='r')
  
 
-        # plt.plot(self.trials, self.SelfConfidence, 'o-', linewidth=0.7),  # Confidence plot
+        # plt.plot(self.trials, self.SelfConfidence, 'o-', linewidth=1.5),  # Confidence plot
         # plt.scatter(self.trials, self.SelfConfidence)
         # plt.xlim(0, self.trials[-1]+1)
         # plt.ylim(-10, 110)
@@ -71,7 +72,7 @@ class SR_Pause:
         # plt.ylabel("Self Confidence")
         
         # plt.subplot(313)
-        # plt.plot(self.trials, self.Workload, 'o-', linewidth=0.7),  # Workload plot
+        # plt.plot(self.trials, self.Workload, 'o-', linewidth=1.5),  # Workload plot
         # plt.scatter(self.trials, self.Workload)
         # plt.xlim(0, self.trials[-1]+1)
         # plt.ylim(-10, 110)
