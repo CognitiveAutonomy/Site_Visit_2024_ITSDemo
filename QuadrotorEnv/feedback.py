@@ -33,8 +33,6 @@ def main(userid, trial=1, LS=1, SC=0, control_mode = 'manual', landing = 'Safe L
   api_key = 'ENTER API KEY'
   if api_key == 'ENTER API KEY':
     print('update API key')
-  # api_key = config["OPENAI_API_KEY"]
-  # api_key_gem = config["GEMINI_API_KEY"]
   
 
   # Function to encode the image
@@ -193,9 +191,10 @@ def main(userid, trial=1, LS=1, SC=0, control_mode = 'manual', landing = 'Safe L
       2. Replace {compliment} with one sentence describing a positive aspect of the pilot's performance relative to the target task. If {top_improvement} is smoothness or efficiency, congratulate the pilot on successfully completing the task. If {top_improvement} is landing, congratulate the pilot on avoiding a crash.
       3. Replace {improvement_area} with a one sentence description of which part of the target task the pilot can most improve in, which I identified as {top_improvement}. Specifically refer to a component of the task rather than an overall assessment of the performance.
       4. Replace {actionable} with a one sentence specific control action strategy the pilot can make to improve in {top_improvement}. The possible control actions are thrust (the force applied perpendicular to the top surface of the drone) and tilt (controls the angular acceration of the drone). Only reference these control actions. Do not reference other control actions. Some examples are:
-          a. To prevent drifting in one direction, tilt the drone in the opposite direction of the drone's movement and use thrust to stop the drone.
-          b. Adjust thrust to slow down when approaching the landing pad while adjusting the tilt as needed to align the drone with te landing pad.
-          c. Try adjusting the tilt in small increments in the beginning to keep the drone stable when aligning the drone to the landing pad.
+        a. To prevent drifting in one direction, tilt the drone in the opposite direction of the drone's movement and use thrust to stop the drone.
+        b. Increase thrust as needed to slow down when descending towards the landing pad. 
+        c. Adjust the tilt to align the drone's flight path to the landing pad.
+        d. Try adjusting the tilt in small increments in the beginning to keep the drone stable when aligning the drone to the landing pad.
       5. Replace {confidence} with one sentence expressing confidence in the pilot's abilities to achieve at a high level on the target task. Only include such expressions when the {confidence} tag is present.
       6. {neutral} means to provide feedback in a neutral, unbiased, and unprejudiced way.
       """
@@ -208,9 +207,10 @@ def main(userid, trial=1, LS=1, SC=0, control_mode = 'manual', landing = 'Safe L
       1. The area the pilot can most improve in is """ + diagnostics.improvement_area + """. This will be referred to as {top_improvement}.
       2. Replace {improvement_area} with a one sentence description of which part of the target task the pilot can most improve in, which I identified as {top_improvement}. Specifically refer to a component of the task rather than an overall assessment of the performance.
       3. Replace {actionable} with a one sentence specific control action strategy the pilot can make to improve in {top_improvement}. The possible control actions are thrust (the force applied perpendicular to the top surface of the drone) and tilt (controls the angular acceration of the drone). Only reference these control actions. Do not reference other control actions. Some examples are:
-          a. To prevent drifting in one direction, tilt the drone in the opposite direction of the drone's movement and use thrust to stop the drone.
-          b. Adjust thrust to slow down when approaching the landing pad while adjusting the tilt as needed to align the drone with te landing pad.
-          c. Try adjusting the tilt in small increments in the beginning to keep the drone stable when aligning the drone to the landing pad.
+        a. To prevent drifting in one direction, tilt the drone in the opposite direction of the drone's movement and use thrust to stop the drone.
+        b. Increase thrust as needed to slow down when descending towards the landing pad. 
+        c. Adjust the tilt to align the drone's flight path to the landing pad.
+        d. Try adjusting the tilt in small increments in the beginning to keep the drone stable when aligning the drone to the landing pad.
       4. Replace {confidence} with one sentence expressing confidence in the pilot's abilities to achieve at a high level on the target task. Only include such expressions when the {confidence} tag is present.
       5. {neutral} means to provide feedback in a neutral, unbiased, and unprejudiced way.
       """
@@ -224,8 +224,9 @@ def main(userid, trial=1, LS=1, SC=0, control_mode = 'manual', landing = 'Safe L
      2. Replace {improvement_area} with a one sentence description of which part of the target task the pilot can most improve in, which I identified as {top_improvement}. Specifically refer to a component of the task rather than an overall assessment of the performance.
      3. Replace {actionable} with a one sentence specific control action strategy the pilot can make to improve in {top_improvement}. The possible control actions are thrust (the force applied perpendicular to the top surface of the drone) and tilt (controls the angular acceration of the drone). Only reference these control actions. Do not reference other control actions. Some examples are:
         a. To prevent drifting in one direction, tilt the drone in the opposite direction of the drone's movement and use thrust to stop the drone.
-        b. Adjust thrust to slow down when approaching the landing pad while adjusting the tilt as needed to align the drone with te landing pad.
-        c. Try adjusting the tilt in small increments in the beginning to keep the drone stable when aligning the drone to the landing pad.
+        b. Increase thrust as needed to slow down when descending towards the landing pad. 
+        c. Adjust the tilt to align the drone's flight path to the landing pad.
+        d. Try adjusting the tilt in small increments in the beginning to keep the drone stable when aligning the drone to the landing pad.
      4. Replace {reflection} with a one sentence task or question that encourages the pilot to reflect on their performance and decide what they can improve on their next attempt.
      5. {negative} means to provide feedback in an unapathetic, cold, and dismissive, way.
      """
@@ -253,8 +254,9 @@ def main(userid, trial=1, LS=1, SC=0, control_mode = 'manual', landing = 'Safe L
         feedback_prompt += """
         5. Replace {actionable} with a one sentence specific control action strategy the pilot can make to improve in {top_improvement}. The possible control actions are thrust (the force applied perpendicular to the top surface of the drone) and tilt (controls the angular acceration of the drone). Only reference these control actions. Do not reference other control actions. Some examples are:
           a. To prevent drifting in one direction, tilt the drone in the opposite direction of the drone's movement and use thrust to stop the drone.
-          b. Adjust thrust to slow down when approaching the landing pad while adjusting the tilt as needed to align the drone with te landing pad.
-          c. Try adjusting the tilt in small increments in the beginning to keep the drone stable when aligning the drone to the landing pad.
+          b. Increase thrust as needed to slow down when descending towards the landing pad. 
+          c. Adjust the tilt to align the drone's flight path to the landing pad.
+          d. Try adjusting the tilt in small increments in the beginning to keep the drone stable when aligning the drone to the landing pad.
         6. Replace {automation} with acknowledgement that the pilot recieved assistance and may need more practice manually landing the drone.
         """
       else:
@@ -271,8 +273,9 @@ def main(userid, trial=1, LS=1, SC=0, control_mode = 'manual', landing = 'Safe L
         feedback_prompt += """
         4. Replace {actionable} with a one sentence specific control action strategy the pilot can make to improve in {top_improvement}. The possible control actions are thrust (the force applied perpendicular to the top surface of the drone) and tilt (controls the angular acceration of the drone). Only reference these control actions. Do not reference other control actions. Some examples are:
           a. To prevent drifting in one direction, tilt the drone in the opposite direction of the drone's movement and use thrust to stop the drone.
-          b. Adjust thrust to slow down when approaching the landing pad while adjusting the tilt as needed to align the drone with te landing pad.
-          c. Try adjusting the tilt in small increments in the beginning to keep the drone stable when aligning the drone to the landing pad.
+          b. Increase thrust as needed to slow down when descending towards the landing pad. 
+          c. Adjust the tilt to align the drone's flight path to the landing pad.
+          d. Try adjusting the tilt in small increments in the beginning to keep the drone stable when aligning the drone to the landing pad.
         5. Replace {automation} with acknowledgement that the pilot recieved assistance and may need more practice manually landing the drone.
         """
       else:

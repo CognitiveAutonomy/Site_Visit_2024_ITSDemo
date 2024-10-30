@@ -29,6 +29,10 @@ Slide11 = ImageTk.PhotoImage(Image.open("../assets/images/instructions/Slide11.p
 Slide12 = ImageTk.PhotoImage(Image.open("../assets/images/instructions/Slide12.png"))
 Slide13 = ImageTk.PhotoImage(Image.open("../assets/images/instructions/Slide13.png"))
 Slide14 = ImageTk.PhotoImage(Image.open("../assets/images/instructions/Slide14.png"))
+Slide15 = ImageTk.PhotoImage(Image.open("../assets/images/instructions/Slide15.png"))
+Slide16 = ImageTk.PhotoImage(Image.open("../assets/images/instructions/Slide16.png"))
+Slide17 = ImageTk.PhotoImage(Image.open("../assets/images/instructions/Slide17.png"))
+Slide18 = ImageTk.PhotoImage(Image.open("../assets/images/instructions/Slide18.png"))
 
 spacer = Label(root, text = " ", bg='#fff')
 spacer.pack()
@@ -48,7 +52,7 @@ def exit_application():
         root.destroy()
 
     else:
-        Slide_Num = 14
+        Slide_Num = 18
         messagebox.showinfo('Return', 'Please review tutorial as needed')
 
 
@@ -56,7 +60,7 @@ def exit_application():
 def next():
     global Slide_Num
     Slide_Num = Slide_Num + 1
-    if Slide_Num == 15:
+    if Slide_Num == 19:
         exit_application()
     if Slide_Num == 1:
         l.config(image=Slide1)
@@ -86,6 +90,14 @@ def next():
         l.config(image=Slide13)
     elif Slide_Num == 14:
         l.config(image=Slide14)
+    elif Slide_Num == 15:
+        l.config(image=Slide15)
+    elif Slide_Num == 16:
+        l.config(image=Slide16)
+    elif Slide_Num == 17:
+        l.config(image=Slide17)
+    elif Slide_Num == 18:
+        l.config(image=Slide18)
 
 def prev():
     global Slide_Num
@@ -120,6 +132,14 @@ def prev():
         l.config(image=Slide13)
     elif Slide_Num == 14:
         l.config(image=Slide14)
+    elif Slide_Num == 15:
+        l.config(image=Slide15)
+    elif Slide_Num == 16:
+        l.config(image=Slide16)
+    elif Slide_Num == 17:
+        l.config(image=Slide17)
+    elif Slide_Num == 18:
+        l.config(image=Slide18)
 
 
 
