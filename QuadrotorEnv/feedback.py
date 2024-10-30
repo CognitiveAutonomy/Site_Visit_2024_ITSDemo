@@ -30,7 +30,9 @@ from visual_feedback import *
 def main(userid, trial=1, LS=1, SC=0, control_mode = 'manual', landing = 'Safe Landing'):
   # OpenAI API Key
   # config = dotenv.dotenv_values(".env")
-  api_key = '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'
+  api_key = 'ENTER API KEY'
+  if api_key == 'ENTER API KEY':
+    print('update API key')
   # api_key = config["OPENAI_API_KEY"]
   # api_key_gem = config["GEMINI_API_KEY"]
   
