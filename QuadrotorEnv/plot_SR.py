@@ -38,6 +38,7 @@ class SR_Pause:
         plt.xlabel("Trial")
         plt.ylabel("Learning Stage")
 
+
         plt.subplot(312)
         plt.plot(self.trials, self.Performance, 'o-', linewidth=1.5),  # Performance plot
         plt.scatter(self.trials, self.Performance)
@@ -47,6 +48,7 @@ class SR_Pause:
         plt.yticks(np.arange(0,1200,200))
         plt.xlabel("Trial")
         plt.ylabel("Performance")
+
 
         plt.subplot(313)
         plt.plot(self.trials, self.SelfConfidence, 'o-', linewidth=1.5, color='b')
@@ -59,6 +61,7 @@ class SR_Pause:
         plt.plot(self.trials, self.Workload, 'o-', linewidth=1.5, color='r')
         plt.scatter(self.trials, self.Workload, color='b')
         plt.yticks(np.arange(0,120,20))
+        plt.xticks(self.trials)
         plt.ylabel('Workload', color='r')
  
 

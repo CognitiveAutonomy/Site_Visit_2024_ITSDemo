@@ -540,7 +540,7 @@ def load_multi_game(device='joystick', name='no_name', control_mode=1, self_conf
 
     # Control mode change logic
     Num_Practice_Trials = 2
-    Num_Final_Trials = 5
+    Num_Final_Trials = 3
     Num_Trials = n
     MODE = ['None'] * Num_Trials
     MODE_csv = [0] * Num_Trials
@@ -553,7 +553,7 @@ def load_multi_game(device='joystick', name='no_name', control_mode=1, self_conf
         MODE[Num_Trials - Num_Final_Trials + trial] = first_mode
         MODE_csv[Num_Trials - Num_Final_Trials + trial] = 1
     Performance_Thres_1 = 447
-    Performance_Thres_2 = 685#836
+    Performance_Thres_2 = 685
     Conf_Thres_1 = 30
     Conf_Thres_2 = 65
     control_mode = MODE[0]
