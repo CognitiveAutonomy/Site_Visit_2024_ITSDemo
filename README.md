@@ -14,6 +14,8 @@ For more information go to:
 
 You will need some sort of game controller to play the game. If you are using Thrustmaster T.Hotas 4, you do not have to change the input device. HOWEVER, if you are using a different game controller, change the input_device variable on line 15 in main. You can refer to the comment on line 14.
 
+You will also need the API key for the feedback to generate. Please message me on Slack for the key as I am unable to share it on Github. You will need to enter the key into the api_key variable around line 33 of the feedback.py file in QuadrotorEnv.
+
 You can play the game by just running the main file. The code is set to have users play through 15 trials. Currently, the instructions are not updated to include information on learning stage classification or formative feedback generation. This will be added later. 
 
 IF POSSIBLE, when a user has completed all 15 trials, please send me the contents of ./Demo/assets/records. It would really help me :) If you think the feedback has some issues, please let me know which trials you have comments on so that I can look into it.
