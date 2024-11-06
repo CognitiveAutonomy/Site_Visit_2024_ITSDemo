@@ -168,6 +168,10 @@ class GameMgr:
         if control == 'joystick':
             self.joystick_axis = []
 
+        # Joystick1 input
+        if control == 'joystick1':
+            self.joystick_axis = []
+
         # ps4 input
         if control == 'ps4':
             self.joystick_axis = []
@@ -225,6 +229,8 @@ class GameMgr:
             # Joystick
             if self.control == 'joystick':
                 self.joystick_axis = [self.joystick.get_axis(0), self.joystick.get_axis(2)]
+            elif self.control == 'joystick1':
+                self.joystick_axis = [self.joystick.get_axis(0), self.joystick.get_axis(3)]
             elif self.control == 'ps4':
                 self.joystick_axis = [self.joystick.get_axis(2), self.joystick.get_axis(1)]
             elif self.control == 'switch':

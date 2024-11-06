@@ -242,10 +242,10 @@ def load_multi_game(device='joystick', name='no_name', control_mode=1, self_conf
             try:
                 SR_img = Image.open(SR_img_path)
                 width,height = SR_img.size
-                left = width/16
-                top = height/16
-                right = width/16*15
-                bottom = 15 * height / 16
+                left = 0
+                top = 0
+                right = width
+                bottom = height
                 SR_img = SR_img.crop((left, top, right, bottom))
                 SR_img = SR_img.resize(((int(width/1.5), int(height/1.5))))
                 SR_img_tk = ImageTk.PhotoImage(SR_img)  # Keep reference to the image
@@ -259,12 +259,12 @@ def load_multi_game(device='joystick', name='no_name', control_mode=1, self_conf
             trial_label.grid_columnconfigure(1, weight=1)
 
 
-            T1_img = Image.open('../assets/records/trial_data/'+name+'_trial_'+str(trial_num-4)+'_trajectory.png')
+            T1_img = Image.open('../assets/records/trial_data/'+name+'_trial_'+str(trial_num-4)+'_trajectory_pause.png')
             width,height = T1_img.size
-            left = width/17
-            top = height/16
-            right = width/16*15
-            bottom = 13 * height / 16
+            left = 0
+            top = 0
+            right = width
+            bottom = height
             T1_img = T1_img.crop((left, top, right, bottom))
             width,height = T1_img.size
             T1_img = T1_img.resize(((int(width/2), int(height/2))))
@@ -273,7 +273,7 @@ def load_multi_game(device='joystick', name='no_name', control_mode=1, self_conf
             T1_panel.grid_rowconfigure(1, weight=1)
             T1_panel.grid_columnconfigure(1, weight=1)
 
-            T2_img = Image.open('../assets/records/trial_data/'+name+'_trial_'+str(trial_num-3)+'_trajectory.png')
+            T2_img = Image.open('../assets/records/trial_data/'+name+'_trial_'+str(trial_num-3)+'_trajectory_pause.png')
             T2_img = T2_img.crop((left, top, right, bottom))
             T2_img = T2_img.resize((int(width/2), int(height/2)))
             T2_tk =ImageTk.PhotoImage(T2_img)  # Keep reference to the image
@@ -281,7 +281,7 @@ def load_multi_game(device='joystick', name='no_name', control_mode=1, self_conf
             T2_panel.grid_rowconfigure(1, weight=1)
             T2_panel.grid_columnconfigure(1, weight=1)
 
-            T3_img = Image.open('../assets/records/trial_data/'+name+'_trial_'+str(trial_num-2)+'_trajectory.png')
+            T3_img = Image.open('../assets/records/trial_data/'+name+'_trial_'+str(trial_num-2)+'_trajectory_pause.png')
             T3_img = T3_img.crop((left, top, right, bottom))
             T3_img = T3_img.resize(((int(width/2), int(height/2))))
             T3_tk =ImageTk.PhotoImage(T3_img)  # Keep reference to the image
@@ -289,7 +289,7 @@ def load_multi_game(device='joystick', name='no_name', control_mode=1, self_conf
             T3_panel.grid_rowconfigure(1, weight=1)
             T3_panel.grid_columnconfigure(1, weight=1)
 
-            T4_img = Image.open('../assets/records/trial_data/'+name+'_trial_'+str(trial_num-1)+'_trajectory.png')
+            T4_img = Image.open('../assets/records/trial_data/'+name+'_trial_'+str(trial_num-1)+'_trajectory_pause.png')
             T4_img = T4_img.crop((left, top, right, bottom))
             T4_img = T4_img.resize(((int(width/2), int(height/2))))
             T4_tk =ImageTk.PhotoImage(T4_img)  # Keep reference to the image
@@ -297,7 +297,7 @@ def load_multi_game(device='joystick', name='no_name', control_mode=1, self_conf
             T4_panel.grid_rowconfigure(1, weight=1)
             T4_panel.grid_columnconfigure(1, weight=1)
 
-            T5_img = Image.open('../assets/records/trial_data/'+name+'_trial_'+str(trial_num)+'_trajectory.png')
+            T5_img = Image.open('../assets/records/trial_data/'+name+'_trial_'+str(trial_num)+'_trajectory_pause.png')
             T5_img = T5_img.crop((left, top, right, bottom))
             T5_img = T5_img.resize(((int(width/2), int(height/2))))
             T5_tk =ImageTk.PhotoImage(T5_img)  # Keep reference to the image
@@ -701,5 +701,11 @@ def load_multi_game(device='joystick', name='no_name', control_mode=1, self_conf
 
         if i == n - 1:
             save_cognitive_data(data)
+            temp = []
+            idx = [0, 1, n-3, n-2, n-1]
+            for j in range(5):
+                temp.append(int(score[idx[j]]))
+            
+            print(temp)
 
     return np_trajectory

@@ -60,6 +60,10 @@ class ThrustTutorialMgr:
             pygame.joystick.init()
             self.joystick = pygame.joystick.Joystick(0)
             self.joystick.init()
+        if control == 'joystick1':
+            pygame.joystick.init()
+            self.joystick = pygame.joystick.Joystick(0)
+            self.joystick.init()
         if control == 'ps4':
             pygame.joystick.init()
             self.joystick = pygame.joystick.Joystick(0)
@@ -126,6 +130,10 @@ class ThrustTutorialMgr:
         if control == 'joystick':
             self.joystick_axis = []
 
+        # Joystick input
+        if control == 'joystick1':
+            self.joystick_axis = []
+
         # ps4 input
         if control == 'ps4':
             self.joystick_axis = []
@@ -179,10 +187,14 @@ class ThrustTutorialMgr:
             # Joystick
             if self.control == 'joystick':
                 self.joystick_axis = [self.joystick.get_axis(0), self.joystick.get_axis(2)]
-            if self.control == 'ps4':
+            elif self.control == 'joystick1':
+                self.joystick_axis = [self.joystick.get_axis(0), self.joystick.get_axis(3)]
+            elif self.control == 'ps4':
                 self.joystick_axis = [self.joystick.get_axis(2), self.joystick.get_axis(1)]
-            if self.control == 'switch':
+            elif self.control == 'switch':
                 self.joystick_axis = [self.joystick.get_axis(2), self.joystick.get_axis(1)]
+            elif self.control == 'xbox':
+                self.joystick_axis = [self.joystick.get_axis(0), self.joystick.get_axis(3)]
 
         # auto-driving mode
         if self.mode == 100 or 3:
@@ -302,6 +314,18 @@ class ThrustTutorialMgr:
             #     angle = -np.arccos(pointing[0] / np.linalg.norm(pointing))
             angle = 0.0
         elif self.control == 'joystick':
+            pointing = np.array(self.joystick_axis)
+            pointing[0] = 0;
+            norm_pointing = np.linalg.norm(pointing)
+            if norm_pointing < 0.0:   # HW calibration problem...
+                # angle = np.random.uniform(-np.pi, np.pi)
+                angle = 0.0
+            elif pointing[1] > 0:
+                angle = np.arccos(pointing[0] / norm_pointing)
+            else:
+                angle = -np.arccos(pointing[0] / (norm_pointing + 1e-32))
+            pointing[1] = -pointing[1]
+        elif self.control == 'joystick1':
             pointing = np.array(self.joystick_axis)
             pointing[0] = 0;
             norm_pointing = np.linalg.norm(pointing)

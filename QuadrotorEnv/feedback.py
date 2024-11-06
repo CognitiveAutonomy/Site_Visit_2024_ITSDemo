@@ -46,7 +46,7 @@ def main(userid, trial=1, LS=1, SC=0, control_mode = 'manual', landing = 'Safe L
   with open(f"../assets/records/trial_data/{userid}_log.txt", "a") as f:
       f.write(f"{datetime.now()}: Improvement area is {diagnostics.improvement_area}\n")
 
-  visuals = VisualFeedback(userid, trial)
+  visuals = VisualFeedback(userid, trial, control_mode, landing)
   visuals.plot_trajectory()
 
   # Getting the base64 string
