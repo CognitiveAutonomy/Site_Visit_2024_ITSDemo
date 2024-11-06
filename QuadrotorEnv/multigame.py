@@ -22,7 +22,7 @@ import matlab.engine
 from plot_SR import *
 import time
 
-def load_multi_game(device='joystick', name='no_name', control_mode=1, self_confidence=0, n=25):
+def load_multi_game(device='joystick', name='no_name', control_mode=1, self_confidence=0, n=25, Pauses = True):
 
     tracemalloc.start()
     eng = matlab.engine.start_matlab()
@@ -59,7 +59,7 @@ def load_multi_game(device='joystick', name='no_name', control_mode=1, self_conf
             center_y = int(screen_height / 2 - window_height / 2)
             load_root.geometry(f'{window_width-400}x{window_height-300}+{int(center_x+(400/2))}+{int(center_y+(300/2))}')
             load_root.title("Loading")
-            load_label = Label(load_root, text="\n\n\nLoading Feedback...", bg = "white")
+            load_label = Label(load_root, text="\n\n\n\n\nLoading Feedback...", bg = "white")
             load_label.configure(font="Arial 30 bold", anchor = CENTER)
 
             # # Open and display the  GIF
@@ -356,7 +356,7 @@ def load_multi_game(device='joystick', name='no_name', control_mode=1, self_conf
             score_att[i] = score_a
             deploy_feedback()
 
-            if (i+1) % 5 == 0:
+            if (i+1) % 5 == 0 and Pauses:
                 print('pause')
                 SR_info = SR_Pause(name,np.arange(0,i+1,1)+1, score[0:i+1],sc[0:i+1], w[0:i+1], LearningStage[0:i+1])
                 SR_info.plot_SR()
