@@ -1,7 +1,9 @@
 %% plottings learning stage trajectories
 % This code will plot the trajectories from LS_trajectories.mat
 
-clear; clc; close all;
+clear; clc; 
+c = colororder(gcf);
+close all
 
 load("LS_Trajectories.mat");
 
@@ -12,51 +14,10 @@ LS3 = cell2mat(LS_Trajectories(3,:));
 LS4 = cell2mat(LS_Trajectories(4,:));
 Lstages = {LS1,LS2,LS3,LS4};
 
-% %% plot position
-% 
-%create canonical means (x,y)
+% create canonical means (x,y)
 for i =1:length(Lstages)
     mean_traj(:,i) = mean(Lstages{i},2);
 end
-
-% %plot mean trajectories (x,y)
-% figure; hold on
-% xlim([-30 30]); ylim([0 35])
-% title('Mean trajectories')
-% for k = 1:size(mean_traj,2)
-%     plot(mean_traj(1:1000,k),mean_traj(1001:2000,k),'LineWidth',2) %plot x and y
-%     box on
-% end
-% patch([-6.5,6.5,6.5,-6.5],[0,0,4,4], 'black','FaceAlpha',.25, 'LineStyle','none')
-% 
-% legend('LS1','LS2','LS3','LS4')
-c = colororder(gcf);
-close all
-% 
-% 
-% % plot canonical trajectories
-% f2 = figure('units','pixels','outerposition',[100 100 720 540]);
-% tcl = tiledlayout(2,2);
-% for j = 1:length(Lstages) % j learning stage 
-%     nexttile; hold on
-%     title(['Learning Stage ' num2str(j)])
-%     for i = 1:size(Lstages{1,j},2) % i trajectories in each learning stage
-%         plot(Lstages{1,j}(1:1000,i),Lstages{1,j}(1001:2000,i),'LineWidth',1.5,'color',c(j,:))  %plot x and y
-%         if i == 4
-%             plot(mean_traj(1:1000,j),mean_traj(1001:2000,j),'LineWidth',3,...
-%                 'color',c(j,:)) %plot x and y
-%         end
-%     end
-%     patch([-6.5,6.5,6.5,-6.5],[0,0,4,4], 'black','FaceAlpha',.25, 'LineStyle','none')
-%     xlim([-30 30]); ylim([0 35])
-%     box on
-% end
-% tcl.TileSpacing = 'compact';
-% tcl.Padding = 'compact';
-% fontsize(tcl,12,'pixels')
-% exportgraphics(f2,'Learning_Stages.png','Resolution',100)
-% % saveas(f2, 'Learning_Stages.png')
-% saveas(f2, 'Learning_Stages.fig')
 
 
 %% Convex hull

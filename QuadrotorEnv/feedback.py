@@ -30,6 +30,7 @@ from visual_feedback import *
 def main(userid, trial=1, LS=1, SC=0, control_mode = 'manual', landing = 'Safe Landing'):
   # OpenAI API Key
   # config = dotenv.dotenv_values(".env")
+  
   api_key = 'ENTER API KEY'
   if api_key == 'ENTER API KEY':
     print('update API key')
@@ -60,9 +61,7 @@ def main(userid, trial=1, LS=1, SC=0, control_mode = 'manual', landing = 'Safe L
   feedback_prompt = """
   You are a critical evaluator. You are giving feedback to a drone pilot who is learning to fly a drone."""
 
-  num = random.randrange(1, 10)
   feedbacktype = ""
-  # if num <= 3:
   if (LS == 1 and SC < 30) or (LS == 2 and SC <= 65 and SC > 30) or (LS == 3 and SC > 65 and landing == 'Unsafe Landing'):
     if landing == 'Unsafe Landing' or landing == 'Safe Landing':
       if control_mode == 'manual':
@@ -87,7 +86,6 @@ def main(userid, trial=1, LS=1, SC=0, control_mode = 'manual', landing = 'Safe L
         improvement area, actionable, confidence, neutral, automation
         """
     feedbacktype = "neutral"
-  # elif num <= 6:
   elif (LS == 1 and SC >= 30) or (LS == 2 and SC > 65):
     if control_mode == 'manual':
       feedback_prompt += """
@@ -135,7 +133,7 @@ def main(userid, trial=1, LS=1, SC=0, control_mode = 'manual', landing = 'Safe L
       else:
         feedback_prompt += """
         Give feedback to a drone pilot in the following format: 
-        compliment
+        complimenteutral
         """
         feedbacktype = "short neutral"
      else:
@@ -183,7 +181,6 @@ def main(userid, trial=1, LS=1, SC=0, control_mode = 'manual', landing = 'Safe L
   4. Do not use mention math, logic, or robustness terms when describing the task. Only use natural language to describe elements of the task.
   """
 
-  # if num <= 3:
   if (LS == 1 and SC < 30) or (LS == 2 and SC <= 65 and SC > 30) or (LS == 3 and SC > 65 and landing == 'Unsafe Landing'):
     if landing == 'Unsafe Landing':
       feedback_prompt += """
@@ -262,7 +259,7 @@ def main(userid, trial=1, LS=1, SC=0, control_mode = 'manual', landing = 'Safe L
       else:
         feedback_prompt += """
         5. Replace {actionable} with a one sentence specific control action strategy the pilot can make to improve in {top_improvement}. The possible control actions are thrust (the force applied perpendicular to the top surface of the drone) and tilt (controls the angular acceration of the drone). Only reference these control actions. Do not reference other control actions. For example, to prevent drifting too much in one direction, tilt the drone in the opposite direction while increasing thrust to stop the drifting.
-        6"""
+        """
     else:
       feedback_prompt += """
       1. The area the pilot can most improve in is """ + diagnostics.improvement_area + """. This will be referred to as {top_improvement}.

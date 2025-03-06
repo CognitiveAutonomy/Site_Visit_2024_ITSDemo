@@ -25,8 +25,8 @@
 clear; clc; close all;
 
 %% Preprocess trajectories
-filepath_traj = 'test_trial_1_trajectory.mat'
-filepath_trial = '241004150829_score_data.csv'
+filepath_traj = 'test_trial_1_trajectory.mat';
+filepath_trial = '241004150829_score_data.csv';
 [trajdata, trialdata] = pull_trajectories(filepath_traj, filepath_trial);
     
 %% Pull Canonical Distribution Trajectories

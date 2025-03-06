@@ -21,12 +21,13 @@ import csv
 import matlab.engine
 from plot_SR import *
 import time
+from online_LS import *
 
 def load_multi_game(device='joystick', name='no_name', control_mode=1, self_confidence=0, n=25, Pauses = True):
 
     tracemalloc.start()
-    eng = matlab.engine.start_matlab()
-    eng.cd(r'../assets/LS_Classifier', nargout=0)
+    # eng = matlab.engine.start_matlab()
+    # eng.cd(r'../assets/LS_Classifier', nargout=0)
 
     def deploy_survey():
         def deploy_feedback():
@@ -38,9 +39,14 @@ def load_multi_game(device='joystick', name='no_name', control_mode=1, self_conf
                 print(datetime.now())
                 save_trial_trajectory_data_csv(i,name,np.column_stack((time_data, x_data, y_data, phi_data, vx_data, vy_data, phidot_data, u_data)))
                 save_trial_trajectory_data(i,name,time_data, x_data, y_data, phi_data, vx_data, vy_data, phidot_data, u_auto_data, u_human_data, control_mode, landing)
-                filepath_traj = '../records/trial_data/' + name + '_trial_' + str(trial_num) + '_trajectory.mat'
-                filepath_plot = '../records/trial_data/' + name + '_trial_' + str(trial_num) + '_LS.png'
-                LS = eng.Online_LS_Classification(filepath_traj,filepath_plot,nargout=1)
+                # filepath_traj = '../records/trial_data/' + name + '_trial_' + str(trial_num) + '_trajectory.mat'
+                # filepath_plot = '../records/trial_data/' + name + '_trial_' + str(trial_num) + '_LS.png'
+                filepath_traj = '../assets/records/trial_data/' + name + '_trial_' + str(trial_num) + '_trajectory.mat'
+                filepath_plot = '../assets/records/trial_data/' + name + '_trial_' + str(trial_num) + '_LS.png'
+
+                LS = online_ls_classification(filepath_traj, filepath_plot)
+
+                # LS = eng.Online_LS_Classification(filepath_traj,filepath_plot,nargout=1)
                 LearningStage[i] = LS
                 with open(f"../assets/records/trial_data/{name}_trial_{trial_num}_LS.txt", "w") as f:
                     f.write(str(LS))
