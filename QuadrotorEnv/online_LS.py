@@ -42,20 +42,22 @@ def process_ls_trajectories(mat_file):
 def plot_ls_trajectories(mean_traj, LS_Pos, conv, fig_size_pixels=(1440, 270)):
     fig_size_inches = (fig_size_pixels[0] / 100, fig_size_pixels[1] / 100)
     fig, axes = plt.subplots(1, 4, figsize=fig_size_inches, constrained_layout=True)
-    colors = plt.rcParams["axes.prop_cycle"].by_key()["color"]
+    colors = ['#0072BD', '#D95319', '#EDB120', '#7E2F8E']
+    #colors = plt.rcParams["axes.prop_cycle"].by_key()["color"]
 
     for i, ax in enumerate(axes):
         ax.set_title(f'Learning Stage {i+1}')
-        ax.plot(mean_traj[:999, i], mean_traj[1000:1999, i], linewidth=3, color=colors[i], label=f'LS {i+1}')
+        ax.plot(mean_traj[:999, i], mean_traj[1000:1999, i], linewidth=3, color=colors[i]) #, label=f'LS {i+1}')
         ax.fill(LS_Pos[i][conv[i], 0], LS_Pos[i][conv[i], 1], color=colors[i], alpha=0.125)
-        ax.fill([-7.25, 7.25, 7.25, -7.25], [0, 0, 4, 4], 'black', alpha=0.25, label='Landing Pad')
+        ax.fill([-7.25, 7.25, 7.25, -7.25], [0, 0, 4, 4], 'black', alpha=0.25)#, label='Landing Pad')
         ax.set_xlim([-30, 30])
         ax.set_ylim([0, 35])
-        ax.grid(True)
-        ax.legend()
+        # ax.grid(True)
+        # ax.legend(loc='upper left')
 
     # plt.savefig('Learning_Stages.png', dpi=100)
     # plt.show()
+    return fig
 
 def online_ls_classification(filepath_traj, filepath_plot):
     # Load trajectory data
@@ -91,8 +93,7 @@ def online_ls_classification(filepath_traj, filepath_plot):
     for i in range(4):
         stage = np.column_stack([np.array(LS_Trajectories_norm[i, j]).flatten() for j in range(8 if i < 2 else 6)])
         Lstages_norm.append(stage)
-    # Lstages_norm = [np.column_stack([np.array(LS_Trajectories_norm[i, j]).flatten() for j in range(8 if i < 2 else 6)]) for i in range(4)]
-    
+
     sigma = 35
     MMD_data = [mmd(Lstages_norm[i], trajdata, sigma) for i in range(len(Lstages_norm))]
     
@@ -105,9 +106,11 @@ def online_ls_classification(filepath_traj, filepath_plot):
         LS = np.argmin(MMD_data[1:4]) + 2
 
     # Plot LS
-    plot_ls_trajectories(*process_ls_trajectories("../assets/LS_Classifier/LS_Trajectories.mat"))
-    plt.plot(x, y, linewidth=3, color='k', label='Your Trajectory')
-    plt.legend()
+    fig = plot_ls_trajectories(*process_ls_trajectories("../assets/LS_Classifier/LS_Trajectories.mat"))
+    axes = fig.axes  # Retrieve existing subplots instead of creating new ones
+    ax = axes[LS - 1]  # Select the subplot corresponding to LS  # Get the current subplot
+    ax.plot(x, y, linewidth=3, color='k') #, label='Your Trajectory')
+    # ax.legend(loc='upper left')
     plt.savefig(filepath_plot, dpi=100)
     # plt.show()
     return LS
