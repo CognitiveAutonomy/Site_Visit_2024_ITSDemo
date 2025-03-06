@@ -31,7 +31,8 @@ def main(userid, trial=1, LS=1, SC=0, control_mode = 'manual', landing = 'Safe L
   # OpenAI API Key
   # config = dotenv.dotenv_values(".env")
   
-  api_key = 'ENTER API KEY'
+  api_key = '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'
+  # api_key = 'ENTER API KEY'
   if api_key == 'ENTER API KEY':
     print('update API key')
   
