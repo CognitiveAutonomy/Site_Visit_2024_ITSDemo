@@ -2,6 +2,7 @@ import numpy as np
 import scipy.io as sio
 import matplotlib.pyplot as plt
 from scipy.spatial import ConvexHull
+from scipy import stats
 
 def process_ls_trajectories(mat_file):
     # Load the .mat file
@@ -15,15 +16,15 @@ def process_ls_trajectories(mat_file):
         Lstages.append(stage)
 
     # Compute canonical means
-    mean_traj = np.vstack([np.mean(stage, axis=1) for stage in Lstages]).T
+    mean_traj = np.vstack([np.mean(s, axis=1) for s in Lstages]).T
     # print("Mean Trajectory Shape:", mean_traj.shape)  # Debugging shape
 
     # Compute convex hulls
     LS_Pos = []
     conv = []
     Z = []
-    for i, stage in enumerate(Lstages):
-        pos = np.column_stack([stage[:1000, :].flatten(), stage[1000:2000, :].flatten()])
+    for i, s in enumerate(Lstages):
+        pos = np.column_stack([s[:1000, :].flatten(), s[1000:2000, :].flatten()])
         
         # Ensure valid input for ConvexHull
         if np.any(np.isnan(pos)) or np.any(np.isinf(pos)):
@@ -74,7 +75,7 @@ def online_ls_classification(filepath_traj, filepath_plot):
     u = u_h if control_mode == 'manual' else 0.6 * u_h + 0.4 * u_a
     N = np.linspace(1, len(time), nsamp)
     
-    trajdata = np.array([
+    trajdata = np.array(stats.zscore(np.concatenate([
         np.interp(N, np.arange(len(x)), x),
         np.interp(N, np.arange(len(y)), y),
         np.interp(N, np.arange(len(vx)), vx),
@@ -82,11 +83,11 @@ def online_ls_classification(filepath_traj, filepath_plot):
         np.interp(N, np.arange(len(phi)), phi),
         np.interp(N, np.arange(len(phi_dot)), phi_dot),
         np.interp(N, np.arange(len(u[:,0])), u[:,0]),
-        np.interp(N, np.arange(len(u[:,1])), u[:,1])
-    ])
+        np.interp(N, np.arange(len(u[:,1])), u[:,1])],axis=0)))
 
-    # Normalize data
-    trajdata = (trajdata - trajdata.mean(axis=1, keepdims=True)) / trajdata.std(axis=1, keepdims=True)
+    # Normalize data and reshape
+    trajdata = trajdata.reshape(-1,1)  
+    # trajdata = ((trajdata - trajdata.mean(axis=1, keepdims=True)) / trajdata.std(axis=1, keepdims=True)).reshape(-1,1)
 
     # Organize normalized LS trajectories
     Lstages_norm = []
@@ -94,16 +95,17 @@ def online_ls_classification(filepath_traj, filepath_plot):
         stage = np.column_stack([np.array(LS_Trajectories_norm[i, j]).flatten() for j in range(8 if i < 2 else 6)])
         Lstages_norm.append(stage)
 
-    sigma = 35
+    sigma = 35  # Reshape to ensure correct dimensions for MMD calculation
     MMD_data = [mmd(Lstages_norm[i], trajdata, sigma) for i in range(len(Lstages_norm))]
     
     # Classification logic
     if landing_type == 0:
-        LS = np.argmin(MMD_data[:2]) + 1
+        LS = np.argmin(np.abs(MMD_data[:2])) + 1
     elif landing_type == 1:
-        LS = np.argmin(MMD_data[:3]) + 1
+        LS = np.argmin(np.abs(MMD_data[:3])) + 1
     else:
-        LS = np.argmin(MMD_data[1:4]) + 2
+        LS = np.argmin(np.abs(MMD_data[1:4])) + 2
+    # print(MMD_data, LS)
 
     # Plot LS
     fig = plot_ls_trajectories(*process_ls_trajectories("../assets/LS_Classifier/LS_Trajectories.mat"))
@@ -123,10 +125,10 @@ def rbf(X, Y, sigma):
     M, T = X.shape[1], Y.shape[1]
     K = np.zeros((M, T))
     
-    num_features = min(X.shape[0], Y.shape[0])  # Ensure safe iteration
+    num_features = X.shape[0] # Ensure safe iteration
     
     for k in range(num_features):  
-        K += (np.tile(Y[k, :], (M, 1)) - np.tile(X[k, :].reshape(-1, 1), (1, T)))**2
+        K += (np.tile(Y[k, :], (M, 1)) - np.tile(X[k, :], (T,1)).T)**2
     
     return np.exp(-K / (2 * sigma**2))
 
@@ -135,6 +137,7 @@ def rbf(X, Y, sigma):
 # mean_traj, LS_Pos, conv = process_ls_trajectories(mat_file)
 # plot_ls_trajectories(mean_traj, LS_Pos, conv)
 
-# filepath_traj = "../assets/records/trial_data/test_trial_1_trajectory.mat"
+# filepath_traj = "../assets/LS_Classifier/Classification/test_trial_1_trajectory.mat"
+# # filepath_traj = "../assets/records/trial_data/test_trial_4_trajectory.mat"
 # filepath_plot = "LS_Classification.png"
 # online_ls_classification(filepath_traj, filepath_plot)

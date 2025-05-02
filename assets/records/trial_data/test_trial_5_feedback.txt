@@ -1,1 +1,1 @@
-You did a great job of avoiding a crash during your landing attempt. However, you can improve in managing the speed of the drone as you descend towards the landing pad. To enhance your approach, increase thrust as needed to slow down when descending towards the landing pad. I believe you have the skills to master this landing technique with practice. Overall, your flight trajectory is promising.
+You successfully maintained your drone's trajectory within the safe boundaries while navigating towards the landing pad.

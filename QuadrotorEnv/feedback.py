@@ -10,27 +10,10 @@ from datetime import datetime
 from diagnostics import *
 from visual_feedback import *
 
-# import tracemalloc
-
-# tracemalloc.start()
-
-# async def wait_for_feedback(userid, trial):
-#     await wait(userid, trial)
-#     return "Complete"
-
-# def add_log_entry(userid, entry):
-#     with open(f"../assets/records/trial_data/{userid}_log.txt", "a") as f:
-#         f.write(f"{datetime.now()}: {entry}\n")
-
-# async def wait(userid, trial):
-#     await main(userid, trial)
-#     return "Complete"
 
 # async def main(userid, trial=1):
 def main(userid, trial=1, LS=1, SC=0, control_mode = 'manual', landing = 'Safe Landing'):
   # OpenAI API Key
-  # config = dotenv.dotenv_values(".env")
-  
   api_key = 'ENTER API KEY'
   if api_key == 'ENTER API KEY':
     print('update API key')
@@ -165,10 +148,10 @@ def main(userid, trial=1, LS=1, SC=0, control_mode = 'manual', landing = 'Safe L
   1. The state variables are the drone's x position in meters (x), y position in meters (y), speed in meters per second (s), and tilt angle in degrees (\phi)
   2. The task is defined using signal temporal logic specifications, which are indicated using $…$
   3. Safety component: $P_1 = x > -30 \land x < 30 \land y > 0 \land y < 33.75$
-  4. Landing component: $P_2 = x > -6.5 \land x < 6.5 \land y < 33.75 \land s <= 5 \land \phi > -\pi/18 \land \phi < \pi/18$
+  4. Landing component: $P_2 = x > -7.0 \land x < 7.0 \land y < 33.75 \land s <= 5 \land \phi > -\pi/18 \land \phi < \pi/18$
   5. Complete task: $P_1 Until P_2$
-  6. An unsuccessful landing or crash is when the drone's ending x and y positions are not within the bounds of $x > -6.5 \land x < 6.5 \land y < 33.75 \land$.
-  7. An unsafe landing is when the drone's ending x and y positions are within the bounds of $x > -6.5 \land x < 6.5 \land y < 33.75 \land$, but the end speed and tilt angle are not violate $\land s > 5 \land \phi > -\pi/18 \land \phi < \pi/18$
+  6. An unsuccessful landing or crash is when the drone's ending x and y positions are not within the bounds of $x > -7.0 \land x < 7.0 \land y < 33.75 \land$.
+  7. An unsafe landing is when the drone's ending x and y positions are within the bounds of $x > -7.0 \land x < 7.0 \land y < 33.75 \land$, but the end speed and tilt angle are not violate $\land s > 5 \land \phi > -\pi/18 \land \phi < \pi/18$
   8. a safe landing is when the drone's end state variables are all within $P_1$ and $P_2$
 
   """

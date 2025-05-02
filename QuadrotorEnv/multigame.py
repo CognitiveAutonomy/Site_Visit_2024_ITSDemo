@@ -139,7 +139,7 @@ def load_multi_game(device='joystick', name='no_name', control_mode=1, self_conf
         
             if landing == 0:
                 Landing_text = 'You achieved an UNSUCCESSFUL landing.'
-            elif landing == 2:
+            elif landing == 1:
                 Landing_text = 'You achieved an UNSAFE landing.'
             else: 
                 Landing_text = 'You achieved a SAFE landing.'
@@ -635,9 +635,9 @@ def load_multi_game(device='joystick', name='no_name', control_mode=1, self_conf
 
         if landing == 0:  # and not land_type:
             landing_cond = 'Unsuccessful Landing'
-        elif landing == 2:  # and land_type:
+        elif landing == 1:  # and land_type:
             landing_cond = 'Unsafe Landing'
-        elif landing == 1:
+        elif landing == 2:
             landing_cond = 'Safe Landing'
 
         # Update the table

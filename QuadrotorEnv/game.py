@@ -344,17 +344,16 @@ class GameMgr:
                         self.final_time_record = (pygame.time.get_ticks() - self.t0) / 1000
                         # print('Time record: %.2f sec' % self.final_time_record)
                         self.mode = 0
-                        self.landing = 1
+                        self.landing = 2
                     else:
                         if self.collideds[-1].classification == 'touchpad2____.png' and position_flag:
                             self.land = True
-                            self.landing = 2
+                            self.landing = 1
                         else:
                             self.collision = True
                             self.landing = 0
                         self.final_time_record = (pygame.time.get_ticks() - self.t0) / 1000
                         self.mode = 0
-                        #self.landing = 0
 
                     # print('Task Objective function: %.2f' % self.task_obj)
                     # print('Averaged control authority: %.2f' % (self.accumulated_authority / (self.k - 1)))
@@ -865,7 +864,7 @@ class GameMgr:
 
 
         # Text info
-        if not self.mode and self.landing == 1:#not self.collision and not self.land:
+        if not self.mode and self.landing == 2:#not self.collision and not self.land:
             #string_for_iMotions = "E;1;EventSourceId;1;0.0;;;SampleId;" + "Flag" + "\r\n"
             #string_for_iMotions = "M;1;EventSourceId;1;0.0;;;SampleId;" + str(1) + "\r\n"
             # string_for_iMotions = "M;2;;;Trial" + str(self.trial + 1) + ";;E;\r\n"  # assuming this ends trial
@@ -886,7 +885,7 @@ class GameMgr:
             pygame.display.update()
             #pygame.time.delay(2500)
 
-        elif not self.mode and not self.collision and self.landing == 2: #self.land:
+        elif not self.mode and not self.collision and self.landing == 1: #self.land:
             #string_for_iMotions = "E;1;EventSourceId;1;0.0;;;SampleId;" + "Flag" + "\r\n"
             #string_for_iMotions = "M;1;EventSourceId;1;0.0;;;SampleId;" + str(1) + "\r\n"
             # string_for_iMotions = "M;2;;;Trial" + str(self.trial + 1) + ";;E;\r\n"  # assuming this ends trial
