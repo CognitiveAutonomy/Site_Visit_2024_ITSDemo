@@ -1,1 +1,0 @@
-You successfully maintained your drone's trajectory within the safe boundaries while navigating towards the landing pad.

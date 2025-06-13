@@ -610,7 +610,7 @@ def load_multi_game(device='joystick', name='no_name', control_mode=1, self_conf
         u_human_data = trajectory_np[:, 7:9]
         u_auto_data = trajectory_np[:, 9:11]
         
-        if MODE[i] == 0:
+        if MODE[i] == 'manual':
             u_data = u_human_data
         else:
             u_data = 0.6*u_human_data + 0.4*u_auto_data
