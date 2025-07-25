@@ -6,7 +6,7 @@ import numpy as np
 matplotlib.use('agg')
 
 class SR_Pause:
-    def __init__(self, userid, trials, Performance, SelfConfidence, Workload,LearningStage):
+    def __init__(self, userid, trials, Performance, SelfConfidence, Workload, LearningStage):
         self.userid = userid
         self.trials = trials
         self.Performance = Performance
