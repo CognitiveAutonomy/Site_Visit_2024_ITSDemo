@@ -8,16 +8,22 @@ import matplotlib.image as mpimg
 import os
 
 
+
 class fNIRS_plot:
 
-    def __init__(self, trials, participant_folder):
+    def __init__(self, trials, participant_file_path):
         self.trials = trials
-        self.participant_folder = participant_folder
+        self.participant_file_path = participant_file_path
+
     # create function to load and process data
     def load_and_process(self):
         
         # Load data from csv file
         df = pd.read_csv(self.input_filename)
+        # Remove the first row
+        df  = df .iloc[1:]
+        # Remove first two columns
+        df  = df .iloc[:,2:]
 
         # return the new dataframe
         return df
@@ -30,7 +36,7 @@ class fNIRS_plot:
         # Assuming the trials are named trial_1.csv, trial_2.csv, ..., trial_25.csv
         for trial in self.trials:
             # Construct the filename
-            filename = os.path.join(self.participant_folder, f'trial_{trial}.csv')
+            filename = os.path.join(self.participant_file_path, f'{trial}.csv')
 
             # Process the file
             df = self.load_and_process(filename)
@@ -47,19 +53,18 @@ class fNIRS_plot:
     
 
         # Take the mean of every column for each group
+        print(means_df)
         means_df = datadf.mean()
 
         return means_df
 
-    ############# CODE ######################
     def plot_fNIRS(self):
+        print(self.participant_file_path)
+        means_data = self.process_participant_data(self.participant_file_path)
 
-        # Loop through each participant folder
-        for i, participant_folder in enumerate(self.participant_folders):
-            means_data = self.process_participant_data(self.participant_folder)
-
-            # Remove the first row
-            means_data = means_data.iloc[1:]
+        # # Remove the first row
+        # means_data = means_data.iloc[1:]
+        # means_data = means_data.iloc[:,2:]
 
         print(means_data)
 
@@ -76,7 +81,7 @@ class fNIRS_plot:
 
         # Sample data: replace with your real values (should be 48 values total)
         # heat_values = np.linspace(-1, 1, 48)
-        heat_values = means_data['1-5'].values  # Use the first column of means_data as heat values
+        heat_values = means_data.values  # Use the first column of means_data as heat values
 
         # Map channel number (1-48) to heat value
         channel_values = dict(zip(range(1, 49), heat_values))
@@ -144,5 +149,13 @@ class fNIRS_plot:
 
         plt.tight_layout()
         plt.show()
-        print(participant_folder+str(self.trials[0])+'-'+str(self.trials[-1])+'.csv')
-        plt.savefig(participant_folder+str(self.trials[0])+'-'+str(self.trials[-1])+'.csv')
+        print(participant_file_path+str(self.trials[0])+'-'+str(self.trials[-1])+'.png')
+        plt.savefig(participant_file_path+str(self.trials[0])+'-'+str(self.trials[-1]) +'.png')
+
+############ MAIN CODE ##################
+name = 'test2'
+participant_file_path = (r'../assets/records/fnirs/' + name + '_')
+i = 4
+
+fNIRS_data = fNIRS_plot(np.arange(i-4,i+1,1)+1,participant_file_path)
+fNIRS_data.plot_fNIRS()
