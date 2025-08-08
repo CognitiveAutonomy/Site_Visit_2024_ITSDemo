@@ -6,67 +6,64 @@ from pylsl import StreamInlet, resolve_streams
 # from settings import *
 from collections import deque
 
-# Define constants
-Ch_num = 204  # Number of Channels
-Ch_3cm = 68
-running_CG = True
+class lsl_demo_code:
+    def __init__(self, participant_name = "Demo_Test_1", save_path = r'../assets/records/fnirs/Demo_Test_1.csv'):
+        self.PARTICIPANT_NAME = participant_name
+        self.CG_RI_SAVE_PATH = save_path
 
-# Initialize an empty deque to store data rows
-data_list = deque()
-start_time = None
+        # Define constants
+        self.Ch_num = 204  # Number of Channels
+        self.Ch_3cm = 68
+        self.running_CG = True
 
-
-PARTICIPANT_NAME = "Demo_Test_1"
-CG_RI_SAVE_PATH = r'fnirs\Demo_Test_1.csv'
-#***********************************************************************************************************
-
-# Don't think this is needed
-# TIMESTAMP = datetime.now().strftime("%Y%m%d%H%M")  # Timestamp as YYYYMMDDHHMM
+        # Initialize an empty deque to store data rows
+        self.data_list = deque()
+        self.start_time = None
+        #***********************************************************************************************************
 
 
+        # Use only the first 48 3cm channels 
+        self.combined_channels = np.arange(48)
 
-# Use only the first 48 3cm channels 
-combined_channels = np.arange(48)
+        # Define columns based on Data_type
+        self.columns = ['Time', 'Marker'] + [f'Channel_{i+1}' for i in self.combined_channels]
 
-# Define columns based on Data_type
-columns = ['Time', 'Marker'] + [f'Channel_{i+1}' for i in combined_channels]
+        print("Looking for an NIRSIT stream...")
+        self.streams = resolve_streams()
+        # fnirs_streams = [s for s in streams if s.type() == 'fNIRS']
+        self.inlet = StreamInlet(self.streams[0])
 
-print("Looking for an NIRSIT stream...")
-streams = resolve_streams()
-# fnirs_streams = [s for s in streams if s.type() == 'fNIRS']
-inlet = StreamInlet(streams[0])
+    def data_collection(self):
+        # global data_list, running, start_time
+        while self.running_CG:
+            # Data Receiving
+            sample, timestamp = self.inlet.pull_sample()
+            if self.start_time is None:
+                self.start_time = timestamp
 
-def data_collection():
-    global data_list, running, start_time
-    while running_CG:
-        # Data Receiving
-        sample, timestamp = inlet.pull_sample()
-        if start_time is None:
-            start_time = timestamp
+            # Normalize timestamp
+            norm_timestamp = timestamp - self.start_time
 
-        # Normalize timestamp
-        norm_timestamp = timestamp - start_time
+            # Extract only the combined channels of interest from the sample
+            data_HbO = np.array([sample[i] for i in self.combined_channels])
+            data_marker = sample[self.Ch_num * 3 + 3]
 
-        # Extract only the combined channels of interest from the sample
-        data_HbO = np.array([sample[i] for i in combined_channels])
-        data_marker = sample[Ch_num * 3 + 3]
-
-        # Append new data to the deque without interleaving
-        data_list.append(np.concatenate(([norm_timestamp, data_marker], data_HbO)))
+            # Append new data to the deque without interleaving
+            self.data_list.append(np.concatenate(([norm_timestamp, data_marker], data_HbO)))
 
 
-def cg_start_data_collection():
-    global running_CG
-    running_CG = True
-    thread = threading.Thread(target=data_collection)
-    thread.start()
-    return thread
+    def cg_start_data_collection(self):
+        # global self.running_CG
+        self.running_CG = True
+        thread = threading.Thread(target=self.data_collection)
+        thread.start()
+        return thread
 
-def cg_stop_data_collection(thread):
-    global running_CG, data_list
-    running_CG = False
-    thread.join()
-    # Convert the deque to a DataFrame and save to CSV
-    df = pd.DataFrame(list(data_list), columns=columns)
-    df.to_csv(CG_RI_SAVE_PATH, index=False)
-    print("Data saved to", CG_RI_SAVE_PATH)
+    def cg_stop_data_collection(self,thread):
+        # global self.running_CG, self.data_list
+        self.running_CG = False
+        thread.join()
+        # Convert the deque to a DataFrame and save to CSV
+        df = pd.DataFrame(list(self.data_list), columns=self.columns)
+        df.to_csv(self.CG_RI_SAVE_PATH, index=False)
+        print("Data saved to", self.CG_RI_SAVE_PATH)

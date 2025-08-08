@@ -43,14 +43,15 @@ def main(argv):
     #     _, _, _ = tutorial_mgr.update()
     #     tutorial_mgr.render()
 
-    # command parser
-    game_mode, max_iteration = parser(argv)
+    # # command parser
+    # game_mode, max_iteration = parser(argv)
 
     # Simulation environment
-    np_trajectory = load_multi_game(device=input_device, name=name, control_mode=c_mode, self_confidence=0, n=n_game, Pauses = True)
+    np_trajectory = load_multi_game(device=input_device, name=name, control_mode=c_mode, self_confidence=0, n=n_game, Pauses = True, fNIRS = True)
 
     # Data module
     save_trajectory(np_trajectory, player_name=name)
 
 if __name__ == '__main__':
+
     main(sys.argv[1:])

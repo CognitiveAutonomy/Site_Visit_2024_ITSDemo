@@ -22,202 +22,211 @@ import csv
 from plot_SR import *
 import time
 from online_LS import *
+from fNIRS_plot import *
+import argparse
 
-def load_multi_game(device='joystick', name='no_name', control_mode=1, self_confidence=0, n=25, Pauses = True):
+def load_multi_game(device='joystick', name='no_name', control_mode=1, self_confidence=0, n=25, Pauses = True, fNIRS = False):
+    
+
+    parser = argparse.ArgumentParser()
+    args, unknown = parser.parse_known_args()  # <-- accepts unknown args now
+
+    if unknown:
+        print("Live stream mode enabled!")
 
     tracemalloc.start()
     # eng = matlab.engine.start_matlab()
     # eng.cd(r'../assets/LS_Classifier', nargout=0)
 
     def deploy_survey():
-        def deploy_feedback():
-            def proceed_feedback():
-                root_feedback.destroy()
+        # def deploy_feedback():
+            # def proceed_feedback():
+            #     root_feedback.destroy()
 
-            def task():
-                # The window will stay open until this function call ends.
-                print(datetime.now())
-                save_trial_trajectory_data_csv(i,name,np.column_stack((time_data, x_data, y_data, phi_data, vx_data, vy_data, phidot_data, u_data)))
-                save_trial_trajectory_data(i,name,time_data, x_data, y_data, phi_data, vx_data, vy_data, phidot_data, u_auto_data, u_human_data, control_mode, landing)
-                # filepath_traj = '../records/trial_data/' + name + '_trial_' + str(trial_num) + '_trajectory.mat'
-                # filepath_plot = '../records/trial_data/' + name + '_trial_' + str(trial_num) + '_LS.png'
-                filepath_traj = '../assets/records/trial_data/' + name + '_trial_' + str(trial_num) + '_trajectory.mat'
-                filepath_plot = '../assets/records/trial_data/' + name + '_trial_' + str(trial_num) + '_LS.png'
+            # def task():
+            #     # The window will stay open until this function call ends.
+            #     print(datetime.now())
+            #     save_trial_trajectory_data_csv(i,name,np.column_stack((time_data, x_data, y_data, phi_data, vx_data, vy_data, phidot_data, u_data)))
+            #     save_trial_trajectory_data(i,name,time_data, x_data, y_data, phi_data, vx_data, vy_data, phidot_data, u_auto_data, u_human_data, control_mode, landing)
+            #     # filepath_traj = '../records/trial_data/' + name + '_trial_' + str(trial_num) + '_trajectory.mat'
+            #     # filepath_plot = '../records/trial_data/' + name + '_trial_' + str(trial_num) + '_LS.png'
+            #     filepath_traj = '../assets/records/trial_data/' + name + '_trial_' + str(trial_num) + '_trajectory.mat'
+            #     filepath_plot = '../assets/records/trial_data/' + name + '_trial_' + str(trial_num) + '_LS.png'
 
-                LS = online_ls_classification(filepath_traj, filepath_plot)
+            #     LS = online_ls_classification(filepath_traj, filepath_plot)
 
-                # LS = eng.Online_LS_Classification(filepath_traj,filepath_plot,nargout=1)
-                LearningStage[i] = LS
-                with open(f"../assets/records/trial_data/{name}_trial_{trial_num}_LS.txt", "w") as f:
-                    f.write(str(LS))
-                feedback.main(name, trial = trial_num, LS = LS, SC = SC_val, control_mode=control_mode, landing= landing_cond)
-                load_root.destroy()
+            #     # LS = eng.Online_LS_Classification(filepath_traj,filepath_plot,nargout=1)
+            #     LearningStage[i] = LS
+            #     with open(f"../assets/records/trial_data/{name}_trial_{trial_num}_LS.txt", "w") as f:
+            #         f.write(str(LS))
+            #     feedback.main(name, trial = trial_num, LS = LS, SC = SC_val, control_mode=control_mode, landing= landing_cond)
+            #     load_root.destroy()
                 
 
-            trial_num = i + 1
-            load_root = tk.Tk()
-            load_root.configure(bg='white', highlightthickness=0)
-            window_width = load_root.winfo_screenwidth()
-            window_height = load_root.winfo_screenheight()
-            screen_width = load_root.winfo_screenwidth()
-            screen_height = load_root.winfo_screenheight()
-            center_x = int(screen_width / 2 - window_width / 2)
-            center_y = int(screen_height / 2 - window_height / 2)
-            load_root.geometry(f'{window_width-400}x{window_height-300}+{int(center_x+(400/2))}+{int(center_y+(300/2))}')
-            load_root.title("Loading")
-            load_label = Label(load_root, text="\n\n\n\n\nLoading Feedback...", bg = "white")
-            load_label.configure(font="Arial 30 bold", anchor = CENTER)
+            # trial_num = i + 1
+            # load_root = tk.Tk()
+            # load_root.configure(bg='white', highlightthickness=0)
+            # window_width = load_root.winfo_screenwidth()
+            # window_height = load_root.winfo_screenheight()
+            # screen_width = load_root.winfo_screenwidth()
+            # screen_height = load_root.winfo_screenheight()
+            # center_x = int(screen_width / 2 - window_width / 2)
+            # center_y = int(screen_height / 2 - window_height / 2)
+            # load_root.geometry(f'{window_width-400}x{window_height-300}+{int(center_x+(400/2))}+{int(center_y+(300/2))}')
+            # load_root.title("Loading")
+            # load_label = Label(load_root, text="\n\n\n\n\nLoading Feedback...", bg = "white")
+            # load_label.configure(font="Arial 30 bold", anchor = CENTER)
 
-            # # Open and display the  GIF
-            # gif_path = '../assets/images/loading.gif' 
-            # gif = Image.open(gif_path)
-            # frames = []
+            # # # Open and display the  GIF
+            # # gif_path = '../assets/images/loading.gif' 
+            # # gif = Image.open(gif_path)
+            # # frames = []
         
-            # try:
-            #     while True:
-            #         frames.append(ImageTk.PhotoImage(gif))
-            #         gif.seek(gif.tell() + 1)
-            # except EOFError:
-            #     pass
+            # # try:
+            # #     while True:
+            # #         frames.append(ImageTk.PhotoImage(gif))
+            # #         gif.seek(gif.tell() + 1)
+            # # except EOFError:
+            # #     pass
 
-            # def update_gif(index):
-            #     frame = frames[index]
-            #     gif_label.configure(image=frame)
-            #     load_root.after(100, update_gif,((index + 1) % len(frames)))
+            # # def update_gif(index):
+            # #     frame = frames[index]
+            # #     gif_label.configure(image=frame)
+            # #     load_root.after(100, update_gif,((index + 1) % len(frames)))
 
-            load_label.pack()
-            # gif_label = tk.Label(load_root, image=frames[0], anchor= CENTER, bg = "white")
-            # update_gif(0)
-            # gif_label.pack()
-            # task()
-            load_root.after(100, task)
-            load_root.mainloop()
+            # load_label.pack()
+            # # gif_label = tk.Label(load_root, image=frames[0], anchor= CENTER, bg = "white")
+            # # update_gif(0)
+            # # gif_label.pack()
+            # # task()
+            # load_root.after(100, task)
+            # load_root.mainloop()
 
-            feedback_path = '../assets/records/trial_data/'+name+'_trial_'+str(trial_num)+'_feedback.txt'
-            LS_path = '../assets/records/trial_data/'+name+'_trial_'+str(trial_num)+'_LS.txt'
-            with open(feedback_path, 'r') as file:
-                feedback_string = file.read()
-            with open(LS_path, 'r') as file:
-                LS = int(float(file.read()))
+            # feedback_path = '../assets/records/trial_data/'+name+'_trial_'+str(trial_num)+'_feedback.txt'
+            # LS_path = '../assets/records/trial_data/'+name+'_trial_'+str(trial_num)+'_LS.txt'
+            # with open(feedback_path, 'r') as file:
+            #     feedback_string = file.read()
+            # with open(LS_path, 'r') as file:
+            #     LS = int(float(file.read()))
 
-            # feedback GUI
-            root_feedback = tk.Tk()
-            root_feedback.title("Feedback")
-            root_feedback.configure(bg='white', highlightthickness=0)
-            window_width = root_feedback.winfo_screenwidth()
-            window_height = root_feedback.winfo_screenheight()
-            screen_width = root_feedback.winfo_screenwidth()
-            screen_height = root_feedback.winfo_screenheight()
-            center_x = int(screen_width / 2 - window_width / 2)
-            center_y = int(screen_height / 2 - window_height / 2)
-            root_feedback.geometry(f'{window_width-10}x{window_height}+{center_x}+{center_y}')
-            # Create a canvas
+            # # feedback GUI
+            # root_feedback = tk.Tk()
+            # root_feedback.title("Feedback")
+            # root_feedback.configure(bg='white', highlightthickness=0)
+            # window_width = root_feedback.winfo_screenwidth()
+            # window_height = root_feedback.winfo_screenheight()
+            # screen_width = root_feedback.winfo_screenwidth()
+            # screen_height = root_feedback.winfo_screenheight()
+            # center_x = int(screen_width / 2 - window_width / 2)
+            # center_y = int(screen_height / 2 - window_height / 2)
+            # root_feedback.geometry(f'{window_width-10}x{window_height}+{center_x}+{center_y}')
+            # # Create a canvas
 
-            feedback_frame = Frame(root_feedback, bg='white', highlightthickness=0)
-            feedback_frame.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
+            # feedback_frame = Frame(root_feedback, bg='white', highlightthickness=0)
+            # feedback_frame.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
 
-            if (LS == 3 and landing_cond == "Safe Landing") or LS == 4:
-                feedback_img_path = '../assets/records/trial_data/'+name+'_trial_'+str(trial_num)+'_trajectory.png'
-            else:
-                feedback_img_path = '../assets/records/trial_data/'+name+'_trial_'+str(trial_num)+'_trajectory_with_feedback.png'
+            # if (LS == 3 and landing_cond == "Safe Landing") or LS == 4:
+            #     feedback_img_path = '../assets/records/trial_data/'+name+'_trial_'+str(trial_num)+'_trajectory.png'
+            # else:
+            #     feedback_img_path = '../assets/records/trial_data/'+name+'_trial_'+str(trial_num)+'_trajectory_with_feedback.png'
            
-            feedback_img = ImageTk.PhotoImage(Image.open(feedback_img_path))
-            LS_img_path = '../assets/records/trial_data/'+name+'_trial_'+str(trial_num)+'_LS.png' 
-            LS_img = ImageTk.PhotoImage(Image.open(LS_img_path))
+            # feedback_img = ImageTk.PhotoImage(Image.open(feedback_img_path))
+            # LS_img_path = '../assets/records/trial_data/'+name+'_trial_'+str(trial_num)+'_LS.png' 
+            # LS_img = ImageTk.PhotoImage(Image.open(LS_img_path))
 
-            LS_labels = list()
-            LS_labels.append('Novice')
-            LS_labels.append('Advanced Beginner')
-            LS_labels.append('Competent')
-            LS_labels.append('Proficient')
-            LS_text_p1 = 'Your trajectory is categorized as LEARNING STAGE ' + str(int(LS)) + ': ' + LS_labels[int(LS)-1]+'.'
+            # LS_labels = list()
+            # LS_labels.append('Novice')
+            # LS_labels.append('Advanced Beginner')
+            # LS_labels.append('Competent')
+            # LS_labels.append('Proficient')
+            # LS_text_p1 = 'Your trajectory is categorized as LEARNING STAGE ' + str(int(LS)) + ': ' + LS_labels[int(LS)-1]+'.'
             
-            if control_mode == 'manual':
-                Auto_text = 'For this trajectory, automation assistance was OFF.'
-            else:
-                Auto_text = 'For this trajectory, automation assistance was ON.'
+            # if control_mode == 'manual':
+            #     Auto_text = 'For this trajectory, automation assistance was OFF.'
+            # else:
+            #     Auto_text = 'For this trajectory, automation assistance was ON.'
         
-            if landing == 0:
-                Landing_text = 'You achieved an UNSUCCESSFUL landing.'
-            elif landing == 1:
-                Landing_text = 'You achieved an UNSAFE landing.'
-            else: 
-                Landing_text = 'You achieved a SAFE landing.'
+            # if landing == 0:
+            #     Landing_text = 'You achieved an UNSUCCESSFUL landing.'
+            # elif landing == 1:
+            #     Landing_text = 'You achieved an UNSAFE landing.'
+            # else: 
+            #     Landing_text = 'You achieved a SAFE landing.'
 
-            Header_traj_text = Label(feedback_frame, text="Quadrotor Trajectory", bg = '#fff')
-            Header_traj_text.configure(font=Def_Font)
-            # Header_traj_text.config(anchor=CENTER)
-            Header_traj_text.grid_rowconfigure(1, weight=1)
-            Header_traj_text.grid_columnconfigure(1, weight=1)
+            # Header_traj_text = Label(feedback_frame, text="Quadrotor Trajectory", bg = '#fff')
+            # Header_traj_text.configure(font=Def_Font)
+            # # Header_traj_text.config(anchor=CENTER)
+            # Header_traj_text.grid_rowconfigure(1, weight=1)
+            # Header_traj_text.grid_columnconfigure(1, weight=1)
 
 
-            feedback_panel = tk.Label(feedback_frame, image = feedback_img, bg = '#fff')
-            feedback_panel.config(anchor=N)
-            feedback_panel.grid_rowconfigure(1, weight=1)
-            feedback_panel.grid_columnconfigure(1, weight=1)
+            # feedback_panel = tk.Label(feedback_frame, image = feedback_img, bg = '#fff')
+            # feedback_panel.config(anchor=N)
+            # feedback_panel.grid_rowconfigure(1, weight=1)
+            # feedback_panel.grid_columnconfigure(1, weight=1)
 
-            Header_LS_text = Label(feedback_frame, text="Learning Stage", bg = '#fff')
-            Header_LS_text.configure(font=Def_Font)
-            Header_LS_text.config(anchor=N)
-            Header_LS_text.grid_rowconfigure(1, weight=1)
-            Header_LS_text.grid_columnconfigure(1, weight=1)
+            # Header_LS_text = Label(feedback_frame, text="Learning Stage", bg = '#fff')
+            # Header_LS_text.configure(font=Def_Font)
+            # Header_LS_text.config(anchor=N)
+            # Header_LS_text.grid_rowconfigure(1, weight=1)
+            # Header_LS_text.grid_columnconfigure(1, weight=1)
             
-            LS_panel = tk.Label(feedback_frame, image = LS_img, bg = '#fff')
-            LS_panel.config(anchor=CENTER)
-            LS_panel.grid_rowconfigure(1, weight=1)
-            LS_panel.grid_columnconfigure(1, weight=1)
+            # LS_panel = tk.Label(feedback_frame, image = LS_img, bg = '#fff')
+            # LS_panel.config(anchor=CENTER)
+            # LS_panel.grid_rowconfigure(1, weight=1)
+            # LS_panel.grid_columnconfigure(1, weight=1)
 
-            LS_text = Label(feedback_frame, text=LS_text_p1 + "\nIn the above figure, your trajectory is shown in BLACK.", bg = '#fff')
-            LS_text.configure(font=Def_Font)
-            LS_text.config(anchor=N)
-            LS_text.grid_rowconfigure(1, weight=1)
-            LS_text.grid_columnconfigure(1, weight=1)
+            # LS_text = Label(feedback_frame, text=LS_text_p1 + "\nIn the above figure, your trajectory is shown in BLACK.", bg = '#fff')
+            # LS_text.configure(font=Def_Font)
+            # LS_text.config(anchor=N)
+            # LS_text.grid_rowconfigure(1, weight=1)
+            # LS_text.grid_columnconfigure(1, weight=1)
 
-            Header_text = Label(feedback_frame, text="Feedback", bg = '#fff')
-            Header_text.configure(font=Def_Font)
-            Header_text.config(anchor=N)
-            Header_text.grid_rowconfigure(1, weight=1)
-            Header_text.grid_columnconfigure(1, weight=1)
+            # Header_text = Label(feedback_frame, text="Feedback", bg = '#fff')
+            # Header_text.configure(font=Def_Font)
+            # Header_text.config(anchor=N)
+            # Header_text.grid_rowconfigure(1, weight=1)
+            # Header_text.grid_columnconfigure(1, weight=1)
 
-            # Auto_text.configure(font=Font1)
+            # # Auto_text.configure(font=Font1)
 
-            feedback_text = Label(feedback_frame, text=Auto_text+'\n'+ Landing_text+ '\n\n '+feedback_string, bg = '#fff', wraplength=window_width*0.4, justify="center")
-            feedback_text.configure(font=Font1)
-            feedback_text.config(anchor=CENTER)
-            feedback_text.grid_rowconfigure(1, weight=1)
-            feedback_text.grid_columnconfigure(1, weight=1)
+            # feedback_text = Label(feedback_frame, text=Auto_text+'\n'+ Landing_text+ '\n\n '+feedback_string, bg = '#fff', wraplength=window_width*0.4, justify="center")
+            # feedback_text.configure(font=Font1)
+            # feedback_text.config(anchor=CENTER)
+            # feedback_text.grid_rowconfigure(1, weight=1)
+            # feedback_text.grid_columnconfigure(1, weight=1)
 
-            Proceed_button = Button(feedback_frame, text="Proceed", width=10, height=2, highlightbackground='#fff', command=proceed_feedback)
-            Proceed_button.grid_rowconfigure(1, weight=1)
-            Proceed_button.grid_columnconfigure(1, weight=1)
+            # Proceed_button = Button(feedback_frame, text="Proceed", width=10, height=2, highlightbackground='#fff', command=proceed_feedback)
+            # Proceed_button.grid_rowconfigure(1, weight=1)
+            # Proceed_button.grid_columnconfigure(1, weight=1)
 
-            feedback_spacer1 = Label(feedback_frame, text="    ", bg='#fff')
-            feedback_spacer1.grid_rowconfigure(1, weight=1)
-            feedback_spacer1.grid_columnconfigure(1, weight=1)
+            # feedback_spacer1 = Label(feedback_frame, text="    ", bg='#fff')
+            # feedback_spacer1.grid_rowconfigure(1, weight=1)
+            # feedback_spacer1.grid_columnconfigure(1, weight=1)
 
-            feedback_spacer2 = Label(feedback_frame, text="    ", bg='#fff')
-            feedback_spacer2.grid_rowconfigure(1, weight=1)
-            feedback_spacer2.grid_columnconfigure(1, weight=1)
+            # feedback_spacer2 = Label(feedback_frame, text="    ", bg='#fff')
+            # feedback_spacer2.grid_rowconfigure(1, weight=1)
+            # feedback_spacer2.grid_columnconfigure(1, weight=1)
 
-            feedback_spacer3 = Label(feedback_frame, text="    ", bg='#fff')
-            feedback_spacer3.grid_rowconfigure(1, weight=1)
-            feedback_spacer3.grid_columnconfigure(1, weight=1)
+            # feedback_spacer3 = Label(feedback_frame, text="    ", bg='#fff')
+            # feedback_spacer3.grid_rowconfigure(1, weight=1)
+            # feedback_spacer3.grid_columnconfigure(1, weight=1)
 
-            #Create Figure
-            Header_LS_text.grid(row=0, column=0, sticky="n", columnspan = 2)
-            LS_panel.grid(row=1, column=0, sticky="n", columnspan = 2)
-            LS_text.grid(row=2, column = 0,sticky="n", columnspan = 2)
+            # #Create Figure
+            # Header_LS_text.grid(row=0, column=0, sticky="n", columnspan = 2)
+            # LS_panel.grid(row=1, column=0, sticky="n", columnspan = 2)
+            # LS_text.grid(row=2, column = 0,sticky="n", columnspan = 2)
 
-            feedback_spacer1.grid(row = 3, column = 0, sticky="n", columnspan = 2)
-            feedback_panel.grid(row=4, column=0, sticky="n", columnspan = 1, rowspan = 3)
+            # feedback_spacer1.grid(row = 3, column = 0, sticky="n", columnspan = 2)
+            # feedback_panel.grid(row=4, column=0, sticky="n", columnspan = 1, rowspan = 3)
             
-            Header_text.grid(row=4, column=1, sticky="s", columnspan = 1)
-            feedback_text.grid(row= 5,column=1, sticky="n", columnspan = 1, padx = 0, pady = 0)
-            feedback_spacer3.grid(row = 6, column = 1, sticky="n", columnspan = 1)
-            Proceed_button.grid(row = 7, column = 0, sticky="n", columnspan = 2)
-            print(datetime.now())
+            # Header_text.grid(row=4, column=1, sticky="s", columnspan = 1)
+            # feedback_text.grid(row= 5,column=1, sticky="n", columnspan = 1, padx = 0, pady = 0)
+            # feedback_spacer3.grid(row = 6, column = 1, sticky="n", columnspan = 1)
+            # Proceed_button.grid(row = 7, column = 0, sticky="n", columnspan = 2)
+            # print(datetime.now())
             
-            root_feedback.mainloop()
+            # root_feedback.mainloop()
 
         def pause_game():     
             def proceed_pause():
@@ -360,13 +369,17 @@ def load_multi_game(device='joystick', name='no_name', control_mode=1, self_conf
             score_pos[i] = score_p
             score_vel[i] = score_v
             score_att[i] = score_a
-            deploy_feedback()
+            # deploy_feedback()
 
             if (i+1) % 5 == 0 and Pauses:
                 print('pause')
-                SR_info = SR_Pause(name,np.arange(0,i+1,1)+1, score[0:i+1],sc[0:i+1], w[0:i+1], LearningStage[0:i+1])
-                SR_info.plot_SR()
-                pause_game()            
+                # SR_info = SR_Pause(name,np.arange(0,i+1,1)+1, score[0:i+1],sc[0:i+1], w[0:i+1], LearningStage[0:i+1])
+                # SR_info.plot_SR()
+                # fnirs functions are called
+                participant_folders = r'../assets/records/fnirs'
+                fNIRS_data = fNIRS_plot(np.arange(i-4,i+1,1)+1,participant_folders)
+                fNIRS_data.plot_fNIRS
+                # pause_game()            
             
         # SURVEY GUI
         root = tk.Tk()
@@ -572,7 +585,7 @@ def load_multi_game(device='joystick', name='no_name', control_mode=1, self_conf
         print('\n\tGame No. %d' % (i+1))
         timestamp1[i] = datetime.timestamp(datetime.now())
         # print(datetime.now())
-        game_mgr = game.GameMgr(mode=1, control=device, trial=i, control_mode=control_mode, init_positions = all_init_positions[0])
+        game_mgr = game.GameMgr(mode=1, control=device, trial=i, control_mode=control_mode, init_positions = all_init_positions[0],fNIRS = fNIRS)
         # if i < 5:
         #     game_mgr = game.GameMgr(mode=1, control=device, trial=i, control_mode=control_mode, init_positions = all_init_positions[0])
         # else:

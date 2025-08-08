@@ -25,7 +25,7 @@ keyboard = Controller()
 # game manager object
 class GameMgr:
     # def __init__(self, mode=1, control='joystick', trial=0, control_mode='HSC'):
-    def __init__(self, mode=1, control='joystick', trial=0, control_mode='HSC', init_positions = np.array([15,28])):
+    def __init__(self, mode=1, control='joystick', trial=0, control_mode='HSC', init_positions = np.array([15,28]),fNIRS = False):
         random.seed()
 
         # mode initialization
@@ -178,7 +178,7 @@ class GameMgr:
         if control == 'ps4':
             self.joystick_axis = []
 
-        # sbox input
+        # xbox input
         if control == 'xbox':
             self.joystick_axis = []
 
@@ -189,6 +189,9 @@ class GameMgr:
         # Keyboard input (not used)
         # self.x_acc = 1
         # self.y_acc = 0
+        self.fNIRS_cond = fNIRS
+        if self.fNIRS_cond:
+            self.fNIRs_collection = lsl_demo_code(name,r'../assets/records/fnirs/'+name+'_'+str(trial+1)+'.csv')
 
     def input(self, action=None):
 
@@ -862,7 +865,8 @@ class GameMgr:
                     #string_for_iMotions = "M;1;EventSourceId;1;0.0;;;SampleId;" + str(1) + "\r\n"
                     string_for_iMotions = "M;2;;;Trial"+str(self.trial+1)+";TrialStart;S;V\r\n"  # assuming this starts trial
                     sendudp(string_for_iMotions)
-                    cg_start_data_collection()
+                    if self.fNIRS_cond:
+                        self.fNIRs_collection.cg_start_data_collection()
 
                     self.start_trial = 0
 
@@ -888,7 +892,8 @@ class GameMgr:
             # display_surface.blit(text_sc, textrect_sc)
             pygame.display.update()
             #pygame.time.delay(2500)
-            cg_stop_data_collection(cg_start_data_collection())
+            if self.fNIRS_cond:
+                self.fNIRs_collection.cg_stop_data_collection(self.fNIRs_collection.cg_start_data_collection())
 
         elif not self.mode and not self.collision and self.landing == 1: #self.land:
             #string_for_iMotions = "E;1;EventSourceId;1;0.0;;;SampleId;" + "Flag" + "\r\n"
@@ -911,7 +916,8 @@ class GameMgr:
             # input("Press Enter to continue...")
             pygame.display.update()
             #pygame.time.delay(2500)
-            cg_stop_data_collection(cg_start_data_collection())
+            if self.fNIRS_cond: 
+                self.fNIRs_collection.cg_stop_data_collection(self.fNIRs_collection.cg_start_data_collection())
 
         elif not self.mode and self.collision:
             #string_for_iMotions = "E;1;EventSourceId;1;0.0;;;SampleId;" + "Flag" + "\r\n"
@@ -938,4 +944,5 @@ class GameMgr:
             # display_surface.blit(text_sc, textrect_sc)
             pygame.display.update()
             #pygame.time.delay(2500)
-            cg_stop_data_collection(cg_start_data_collection())
+            if self.fNIRS_cond:
+                self.fNIRs_collection.cg_stop_data_collection(self.fNIRs_collection.cg_start_data_collection())
