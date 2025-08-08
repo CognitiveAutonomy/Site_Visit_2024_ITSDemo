@@ -16,10 +16,10 @@ class fNIRS_plot:
         self.participant_file_path = participant_file_path
 
     # create function to load and process data
-    def load_and_process(self):
+    def load_and_process(self, input_filename):
         
         # Load data from csv file
-        df = pd.read_csv(self.input_filename)
+        df = pd.read_csv(input_filename)
         # Remove the first row
         df  = df .iloc[1:]
         # Remove first two columns
@@ -36,7 +36,8 @@ class fNIRS_plot:
         # Assuming the trials are named trial_1.csv, trial_2.csv, ..., trial_25.csv
         for trial in self.trials:
             # Construct the filename
-            filename = os.path.join(self.participant_file_path, f'{trial}.csv')
+            filename = f'{self.participant_file_path}{trial}.csv'
+            # filename = os.path.join(self.participant_file_path, f'{trial}.csv')
 
             # Process the file
             df = self.load_and_process(filename)
@@ -52,15 +53,15 @@ class fNIRS_plot:
         datadf = pd.DataFrame(data)
     
 
-        # Take the mean of every column for each group
-        print(means_df)
+        # # Take the mean of every column for each group
+        # print(means_df)
         means_df = datadf.mean()
 
         return means_df
 
     def plot_fNIRS(self):
-        print(self.participant_file_path)
-        means_data = self.process_participant_data(self.participant_file_path)
+
+        means_data = self.process_participant_data()
 
         # # Remove the first row
         # means_data = means_data.iloc[1:]
