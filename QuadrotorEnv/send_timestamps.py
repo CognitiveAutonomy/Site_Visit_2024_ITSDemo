@@ -55,24 +55,24 @@ def sendudp(string_for_iMotions):
 
 # Define "send_marker" function
 ############# USED FOR FNIRS #######################
-# serverIp =  '127.0.0.1' # '128.46.185.118'
-# tcpPort = 60000 # 60000
-# MyPort = socket.socket(socket.AF_INET, socket.SOCK_STREAM) 
-# MyPort.connect((serverIp, tcpPort))
-# addr = (serverIp, tcpPort)
-# print ('Connected by', addr)
+serverIp =  '127.0.0.1' # '128.46.185.118'
+tcpPort = 60000 # 60000
+MyPort = socket.socket(socket.AF_INET, socket.SOCK_STREAM) 
+MyPort.connect((serverIp, tcpPort))
+addr = (serverIp, tcpPort)
+print ('Connected by', addr)
 
-# def send_marker(marker):
-#     # check whether marker is int
-#     if not isinstance(marker, int):
-#         try:
-#             marker = int(marker)
-#         except: 
-#             print('Error!! Markers must be numbers.')
-#     # send marker 
-#     msg = bytes(b'abc') + marker.to_bytes(4, byteorder="little") + bytes(b'xyz')
-#     MyPort.send(msg)
-#     print("Sending marker No:" f'{marker}')
+def send_marker(marker):
+    # check whether marker is int
+    if not isinstance(marker, int):
+        try:
+            marker = int(marker)
+        except: 
+            print('Error!! Markers must be numbers.')
+    # send marker 
+    msg = bytes(b'abc') + marker.to_bytes(4, byteorder="little") + bytes(b'xyz')
+    MyPort.send(msg)
+    print("Sending marker No:" f'{marker}')
 ############# USED FOR FNIRS #######################
 
 

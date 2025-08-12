@@ -8,6 +8,7 @@ from multigame import *
 # Control mode: HSC / OCIP / manual / optimal / shared
 c_mode = 'shared'
 # Player Name
+
 name = 'testing'#'G1P32'
 #'Intro' + '_' + c_mode
 

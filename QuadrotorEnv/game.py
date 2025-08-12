@@ -13,6 +13,8 @@ from font import *
 from main import *
 from pynput.keyboard import Key, Controller
 
+from lsl_demo_code import *
+
 obstacle_spawn = pygame.USEREVENT+1
 record_Sign = pygame.USEREVENT+2
 obstacle_clock = 80
@@ -860,6 +862,8 @@ class GameMgr:
                     #string_for_iMotions = "M;1;EventSourceId;1;0.0;;;SampleId;" + str(1) + "\r\n"
                     string_for_iMotions = "M;2;;;Trial"+str(self.trial+1)+";TrialStart;S;V\r\n"  # assuming this starts trial
                     sendudp(string_for_iMotions)
+                    cg_start_data_collection()
+
                     self.start_trial = 0
 
 
@@ -884,6 +888,7 @@ class GameMgr:
             # display_surface.blit(text_sc, textrect_sc)
             pygame.display.update()
             #pygame.time.delay(2500)
+            cg_stop_data_collection(cg_start_data_collection())
 
         elif not self.mode and not self.collision and self.landing == 1: #self.land:
             #string_for_iMotions = "E;1;EventSourceId;1;0.0;;;SampleId;" + "Flag" + "\r\n"
@@ -906,6 +911,8 @@ class GameMgr:
             # input("Press Enter to continue...")
             pygame.display.update()
             #pygame.time.delay(2500)
+            cg_stop_data_collection(cg_start_data_collection())
+
         elif not self.mode and self.collision:
             #string_for_iMotions = "E;1;EventSourceId;1;0.0;;;SampleId;" + "Flag" + "\r\n"
             # string_for_iMotions = "M;2;;;Trial" + str(self.trial + 1) + ";;E;\r\n"  # assuming this ends trial
@@ -931,3 +938,4 @@ class GameMgr:
             # display_surface.blit(text_sc, textrect_sc)
             pygame.display.update()
             #pygame.time.delay(2500)
+            cg_stop_data_collection(cg_start_data_collection())
