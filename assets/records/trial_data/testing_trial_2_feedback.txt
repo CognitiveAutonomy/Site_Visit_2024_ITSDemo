@@ -1,0 +1,1 @@
+You're doing well in navigating the drone along the trajectory towards the landing area. However, you can most improve in controlling the drone's landing speed. To enhance this, consider increasing thrust as needed to slow down when descending towards the landing pad. I believe you have the skills to achieve a smooth landing with practice. Keep up the good work!

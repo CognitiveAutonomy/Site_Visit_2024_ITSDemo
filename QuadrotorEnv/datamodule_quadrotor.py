@@ -594,8 +594,7 @@ def save_cognitive_data(data):
     time_str = time.strftime('%y%m%d%H%M%S')
     file_name = time_str + '_score_data' + '.csv'
     np.savetxt(RECORD_PATH + file_name, data, delimiter=',',
-               header="Trial, Score, RMS, Safe_landing, time, self-conf, workload, Control_mode, Position_x, Position_y, speed, attitude, score_t, score_p,score_v, score_a, start_time, end_time")
-                #header = "Trial, Score, RMS, Safe_landing, time, trust, agree, self-conf, Control_mode, Position_x, Position_y, speed, attitude, score_t, score_p,score_v, score_a, mental_demand, physical_demand, temporal_demand, performance_nasa_tlx, effort, frustration")
+               header="Trial, Score, RMS, Safe_landing, time, self-conf, workload, Control_mode, Position_x, Position_y, speed, attitude") #, score_t, score_p,score_v, score_a, start_time, end_time")
 
 def save_trial_data(trial,name,data):
     save_path = '../assets/records/trial_data/' + name + '_trial_' + str(trial+1) 

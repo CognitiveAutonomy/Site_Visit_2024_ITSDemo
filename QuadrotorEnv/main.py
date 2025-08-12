@@ -8,13 +8,13 @@ from multigame import *
 # Control mode: HSC / OCIP / manual / optimal / shared
 c_mode = 'shared'
 # Player Name
-name = 'test'#'G1P32'
+name = 'testing'#'G1P32'
 #'Intro' + '_' + c_mode
 
 # User input device (joystick,ps4,xbox,switch)
 input_device = 'joystick'
 # No. of games (positive integer)
-n_game = 15
+n_game = 5
 
 
 def main(argv):

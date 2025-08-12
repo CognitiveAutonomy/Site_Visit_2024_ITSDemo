@@ -1,0 +1,1 @@
+You effectively maneuvered the drone to reach a safe starting position, demonstrating good control over the trajectory. However, the ending position indicates that the landing was outside the target area.

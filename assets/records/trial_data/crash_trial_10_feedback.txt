@@ -1,0 +1,1 @@
+You demonstrated good control in navigating the drone's trajectory, keeping it mostly within the designated area. However, the ending position did not meet the required landing parameters, reflecting a need for improvement in speed and angle management upon landing.
