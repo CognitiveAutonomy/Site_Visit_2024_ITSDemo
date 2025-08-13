@@ -6,7 +6,7 @@ from datamodule_quadrotor import *
 from multigame import *
 
 # Control mode: HSC / OCIP / manual / optimal / shared
-c_mode = 'shared'
+c_mode = 'haptics'
 # Player Name
 
 name = 'testing'#'G1P32'
@@ -15,7 +15,7 @@ name = 'testing'#'G1P32'
 # User input device (joystick,ps4,xbox,switch)
 input_device = 'joystick'
 # No. of games (positive integer)
-n_game = 5
+n_game = 6
 
 
 def main(argv):
@@ -48,7 +48,7 @@ def main(argv):
     game_mode, max_iteration = parser(argv)
 
     # Simulation environment
-    np_trajectory = load_multi_game(device=input_device, name=name, control_mode=c_mode, self_confidence=0, n=n_game, Pauses = True, fNIRS = False)
+    np_trajectory = load_multi_game(device=input_device, name=name, control_mode=c_mode, self_confidence=0, n=n_game, Pauses = True, fNIRS = False, assist_mode = 'shared')
 
     # Data module
     save_trajectory(np_trajectory, player_name=name)

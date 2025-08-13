@@ -11,14 +11,18 @@ from background import *
 from font import *
 from main import *
 from pynput.keyboard import Key, Controller
-
-
+import serial,time,math
 
 fNIRS = False
+HAPTICS = False
 
 if fNIRS:
     from send_timestamps import *
     from lsl_demo_code import *
+
+if HAPTICS:
+    ser = serial.Serial('COM6',115200,timeout=0.1) #open port
+    time.sleep(2)
 
 obstacle_spawn = pygame.USEREVENT+1
 record_Sign = pygame.USEREVENT+2
@@ -27,6 +31,25 @@ time_delta = 30
 record_sign_interval = 5
 keyboard = Controller()
 
+
+last_vec = None
+MIN_DELTA = 0.2
+
+def send_vector(x, y):
+    global last_vec
+    vec = (round(x,3),round(y,3))
+    if last_vec is None:
+        send = True
+        dx = dy = 0.0
+    else:
+        dx = vec[0] - last_vec[0]
+        dy = vec[1] - last_vec[1]
+        send = math.hypot(dx, dy) > MIN_DELTA
+    if (send):
+            last_vec = vec
+            msg = f"{x:.3f},{y:.3f}\n"
+            # print(f"→ sending {msg.strip()} (Δ={math.hypot(dx,dy):.3f})")
+            ser.write(msg.encode('utf-8'))
 # game manager object
 class GameMgr:
     # def __init__(self, mode=1, control='joystick', trial=0, control_mode='HSC'):
@@ -706,6 +729,19 @@ class GameMgr:
             self.objects[0].linearized_quadrotor_dynamics(pointing[0], -pointing[1])
             self.loss = 0
             self.visual_code = YELLOW
+        elif self.c_mode == 'haptics':
+            control_status = 'ON'
+            self.objects[0].linearized_quadrotor_dynamics(pointing[0], -pointing[1])
+            self.loss = self.loss + np.dot(self.Xk, self.Q @ self.Xk) + np.dot(human_input, self.R @ human_input)
+            self.visual_code = GREEN
+            self.accumulated_authority = self.accumulated_authority + 1
+            diff_auto_pointing = input_automation - pointing
+            if self.initial:
+                 send_vector(0, 0)
+            elif np.any(np.abs(diff_auto_pointing) > 0.01):
+               send_vector(diff_auto_pointing[0], diff_auto_pointing[1])
+            else:
+                pass
         else:
             pass
 
@@ -840,6 +876,15 @@ class GameMgr:
                 auto_text_height = auto_text.get_height()
                 self.screen.blit(font.render("Press any joystick button to start trial %d" % (self.trial + 1), True,  WHITE), ((BOUND_X_MAX-BOUND_X_MIN)/2 - start_text_width/2, (BOUND_Y_MAX-BOUND_Y_MIN)/2 - start_text_height/2))           
                 self.screen.blit(font.render("Automation Assistance: %s" % 'ON', True, GREEN), ((BOUND_X_MAX-BOUND_X_MIN)/2 - auto_text_width/2, (BOUND_Y_MAX-BOUND_Y_MIN)/2+auto_text_height/2))           
+            elif self.c_mode == 'haptics':
+                start_text = font.render("Press any joystick button to start trial %d" % (self.trial + 1), True,  WHITE)
+                auto_text = font.render("Automation Assistance: %s" % 'ON', True, GREEN)
+                start_text_width = start_text.get_width()
+                start_text_height = start_text.get_height()
+                auto_text_width = auto_text.get_width()
+                auto_text_height = auto_text.get_height()
+                self.screen.blit(font.render("Press any joystick button to start trial %d" % (self.trial + 1), True,  WHITE), ((BOUND_X_MAX-BOUND_X_MIN)/2 - start_text_width/2, (BOUND_Y_MAX-BOUND_Y_MIN)/2 - start_text_height/2))           
+                self.screen.blit(font.render("Automation Assistance: %s" % 'ON', True, GREEN), ((BOUND_X_MAX-BOUND_X_MIN)/2 - auto_text_width/2, (BOUND_Y_MAX-BOUND_Y_MIN)/2+auto_text_height/2))           
 
             else:
                 start_text = font.render("Press any joystick button to start trial %d" % (self.trial + 1), True,  WHITE)
@@ -880,6 +925,8 @@ class GameMgr:
             #string_for_iMotions = "M;1;EventSourceId;1;0.0;;;SampleId;" + str(1) + "\r\n"
             # string_for_iMotions = "M;2;;;Trial" + str(self.trial + 1) + ";;E;\r\n"  # assuming this ends trial
             # sendudp(string_for_iMotions)
+            if self.c_mode == 'haptics':
+                send_vector(0, 0)
             self.trial += 1
             display_surface = pygame.display.set_mode((BOUND_X_MAX, BOUND_Y_MAX))
             font = pygame.font.Font('freesansbold.ttf', 32)
@@ -903,6 +950,8 @@ class GameMgr:
             #string_for_iMotions = "M;1;EventSourceId;1;0.0;;;SampleId;" + str(1) + "\r\n"
             # string_for_iMotions = "M;2;;;Trial" + str(self.trial + 1) + ";;E;\r\n"  # assuming this ends trial
             # sendudp(string_for_iMotions)
+            if self.c_mode == 'haptics':
+                send_vector(0, 0)
             self.trial += 1
             display_surface = pygame.display.set_mode((BOUND_X_MAX, BOUND_Y_MAX))
             font = pygame.font.Font('freesansbold.ttf', 32)
@@ -926,6 +975,8 @@ class GameMgr:
             #string_for_iMotions = "E;1;EventSourceId;1;0.0;;;SampleId;" + "Flag" + "\r\n"
             # string_for_iMotions = "M;2;;;Trial" + str(self.trial + 1) + ";;E;\r\n"  # assuming this ends trial
             # sendudp(string_for_iMotions)
+            if self.c_mode == 'haptics':
+                send_vector(0, 0)
             self.trial += 1
             display_surface = pygame.display.set_mode((BOUND_X_MAX, BOUND_Y_MAX))
             font = pygame.font.Font('freesansbold.ttf', 32)

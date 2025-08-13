@@ -27,7 +27,7 @@ fNIRS = False
 if fNIRS:
     from lsl_demo_code import *
 
-def load_multi_game(device='joystick', name='no_name', control_mode=1, self_confidence=0, n=25, Pauses = True, fNIRS = False):
+def load_multi_game(device='joystick', name='no_name', control_mode=1, self_confidence=0, n=25, Pauses = True, fNIRS = False, assist_mode = 'shared'):
 
     tracemalloc.start()
     
@@ -190,14 +190,14 @@ def load_multi_game(device='joystick', name='no_name', control_mode=1, self_conf
             if (MODE[i + 1] == 'None'):
 
                 if sc[i] <= Conf_Thres_1:               #SC_L and (P_L,P_M,P_H)
-                    MODE[i + 1] = 'shared'
+                    MODE[i + 1] = assist_mode
                     MODE_csv[i + 1] = 2
                 elif sc[i] > Conf_Thres_1 and sc[i] <= Conf_Thres_2:
                     if score[i] <= Performance_Thres_2: #SC_M and (P_L,P_M)
                         MODE[i+1] = 'manual'
                         MODE_csv[i + 1] = 1
                     else:                               #SC_M and P_H
-                        MODE[i+1] = 'shared'
+                        MODE[i+1] = assist_mode
                         MODE_csv[i + 1] = 2
                 else:                                   #SC_H
                     MODE[i+1] = 'manual'
