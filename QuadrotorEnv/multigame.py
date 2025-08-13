@@ -9,7 +9,6 @@ from tkinter import filedialog
 from tkinter import *
 from tkinter import messagebox
 from tkinter import ttk
-from send_timestamps import *
 import os
 from datetime import datetime
 import scipy.io as sio
@@ -24,7 +23,11 @@ import time
 from online_LS import *
 from UIs import *
 
-def load_multi_game(device='joystick', name='no_name', control_mode=1, self_confidence=0, n=25, Pauses = True):
+fNIRS = False
+if fNIRS:
+    from lsl_demo_code import *
+
+def load_multi_game(device='joystick', name='no_name', control_mode=1, self_confidence=0, n=25, Pauses = True, fNIRS = False):
 
     tracemalloc.start()
     
@@ -76,7 +79,7 @@ def load_multi_game(device='joystick', name='no_name', control_mode=1, self_conf
         print('\n\tGame No. %d' % (i+1))
         timestamp1[i] = datetime.timestamp(datetime.now())
         # print(datetime.now())
-        game_mgr = game.GameMgr(mode=1, control=device, trial=i, control_mode=control_mode, init_positions = all_init_positions[0])
+        game_mgr = game.GameMgr(mode=1, control=device, trial=i, control_mode=control_mode, init_positions = all_init_positions[0], fNIRS = False)
         mode = game_mgr.input()
         _, _, _, _, _ = game_mgr.update()
 

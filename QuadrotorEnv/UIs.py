@@ -5,7 +5,6 @@ from tkinter import filedialog
 from tkinter import *
 from tkinter import messagebox
 from tkinter import ttk
-from send_timestamps import *
 import os
 from datetime import datetime
 import scipy.io as sio
