@@ -14,7 +14,7 @@ from visual_feedback import *
 # async def main(userid, trial=1):
 def main(userid, trial=1, LS=1, SC=0, control_mode = 'manual', landing = 'Safe Landing'):
   # OpenAI API Key
-  api_key = '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'
+  api_key = 'ENTER API KEY'
   if api_key == 'ENTER API KEY':
     print('update API key')
   
