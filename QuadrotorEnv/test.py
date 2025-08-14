@@ -122,3 +122,12 @@ SR_panel.grid(row=3, column=0, sticky="n", columnspan = 5)
 Proceed_button.grid(row = 4, column = 2, sticky="n", columnspan = 1)
 
 root_pause.mainloop()
+
+CF_root = tk.Tk()
+CF_root.geometry("900x540")
+app = TkVLCPlayer(CF_root)
+video_path = r"./output/" + name + "_trial_"+ str(trial_num)+"_trajectory.mp4"  # <-- change this    
+media = app.vlc_instance.media_new_path(video_path)
+app.player.set_media(media)
+app.media = media
+app.play() 

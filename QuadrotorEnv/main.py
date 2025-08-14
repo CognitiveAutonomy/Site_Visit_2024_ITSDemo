@@ -15,7 +15,7 @@ name = 'testing'#'G1P32'
 # User input device (joystick,ps4,xbox,switch)
 input_device = 'joystick'
 # No. of games (positive integer)
-n_game = 6
+n_game = 10
 
 
 def main(argv):

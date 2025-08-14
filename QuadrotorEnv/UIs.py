@@ -16,6 +16,7 @@ import csv
 from plot_SR import *
 import time
 from online_LS import *
+from TkVLCPlayer import *
 
 
 HeaderFont = ("Arial", 20, "bold")
@@ -204,9 +205,14 @@ def deploy_feedback(trial_data):
         # The window will stay open until this function call ends.
         print(datetime.now())
         save_trial_trajectory_data_csv(i,name,np.column_stack((time_data, x_data, y_data, phi_data, vx_data, vy_data, phidot_data, u_data)))
+        if trial_num % 5 == 0:
+            save_path = '../assets/records/trial_data/' + name + '_trial_' + str(trial_num) + '_trajectory.csv'
+            fdetails = FileDetails(save_path, './output', step=10, max_steps=100, verbose=False)
+            output_filelist, cost_file, video_filename = process_csv_file(fdetails)
         save_trial_trajectory_data(i,name,time_data, x_data, y_data, phi_data, vx_data, vy_data, phidot_data, u_auto_data, u_human_data, control_mode, landing)
         filepath_traj = '../assets/records/trial_data/' + name + '_trial_' + str(trial_num) + '_trajectory.mat'
         filepath_plot = '../assets/records/trial_data/' + name + '_trial_' + str(trial_num) + '_LS.png'
+        
         LS = online_ls_classification(filepath_traj, filepath_plot)
         trial_data["LearningStage"][trial_data["trial"]] = LS
         with open(f"../assets/records/trial_data/{name}_trial_{trial_num}_LS.txt", "w") as f:
@@ -246,7 +252,10 @@ def deploy_feedback(trial_data):
     center_y = int(screen_height / 2 - window_height / 2)
     load_root.geometry(f'{window_width-400}x{window_height-300}+{int(center_x+(400/2))}+{int(center_y+(300/2))}')
     load_root.title("Loading")
-    load_label = Label(load_root, text="\n\n\n\n\nLoading Feedback...", bg = "white")
+    if trial_num % 5 != 0:
+        load_label = Label(load_root, text="\n\n\n\n\nLoading Feedback...", bg = "white")
+    else:
+        load_label = Label(load_root, text="\n\n\n\n\nLoading Feedback & Counterfactuals...", bg = "white")
     load_label.configure(font="Arial 30 bold", anchor = CENTER)
 
 
@@ -386,7 +395,6 @@ def pause_game(trial_data):
     
     def proceed_pause():
         root_pause.destroy()
-
 
     trial_num = trial_data["trial"] + 1
     name = trial_data["name"]

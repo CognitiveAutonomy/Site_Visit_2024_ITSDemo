@@ -1,1 +1,1 @@
-Your drone's trajectory shows impressive control and finesse, demonstrating good navigation skills throughout the task.
+You need to improve in the landing component, as the drone's ending position is way off the target area. Increase thrust as needed to slow down when descending towards the landing pad and adjust the tilt to align the drone's flight path to the landing pad. Reflect on how controlling your speed and tilt can impact your accuracy in landing. This attempt completely missed the landing zone, indicating a significant control issue that needs urgent attention.

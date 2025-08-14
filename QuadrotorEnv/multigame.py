@@ -22,6 +22,9 @@ from plot_SR import *
 import time
 from online_LS import *
 from UIs import *
+from TkVLCPlayer import *
+# from fNIRS_comparison_UI import *
+# from pause_UI import *
 
 fNIRS = False
 if fNIRS:
@@ -178,11 +181,81 @@ def load_multi_game(device='joystick', name='no_name', control_mode=1, self_conf
         trial_data = deploy_feedback(trial_data)
 
 
-        if (i+1) % 5 == 0 and Pauses:
-            print('pause')
-            SR_info = SR_Pause(name,np.arange(0,i+1,1)+1, score[0:i+1],sc[0:i+1], w[0:i+1], LearningStage[0:i+1])
-            SR_info.plot_SR()
-            pause_game(trial_data)      
+
+
+        # if (i+1) % 5 == 0 and Pauses:
+        #     print('pause')
+        #     SR_info = SR_Pause(name,np.arange(0,i+1,1)+1, score[0:i+1],sc[0:i+1], w[0:i+1], LearningStage[0:i+1])
+        #     SR_info.plot_SR()
+        #     pause_game(trial_data) 
+
+        #     CF_root = tk.Tk()
+        #     CF_root.geometry("900x540")
+        #     app = TkVLCPlayer(CF_root)
+        #     video_path = r"./output/" + name + "_trial_"+ str(i+1)+"_trajectory.mp4"  # <-- change this    
+        #     media = app.vlc_instance.media_new_path(video_path)
+        #     app.player.set_media(media)
+        #     app.media = media
+        #     app.play() 
+
+        #     # Start fNIRS comparison UI
+        #     if (i+1)/ 5 == 1:
+        #         images = [
+        #             "./fnirs/elmo_trial_"+ str(i+1)+"_fNIRs.png",
+        #             "./fnirs/TBD.png",
+        #             "./fnirs/TBD.png"
+        #         ]
+        #         # images = [
+        #         #     "./fnirs/" + name + "_trial_"+ str(i+1)+"_fNIRs.png",
+        #         #     "./fnirs/TBD.png",
+        #         #     "./fnirs/TBD.png"
+        #         # ]
+        #     elif (i+1)/ 5 == 2:
+        #         images = [
+        #             "./fnirs/elmo_trial_"+ str(i+1)+"_fNIRs.png",
+        #             "./fnirs/elmo_trial_"+ str(i+1)+"_fNIRs.png",
+        #             "./fnirs/TBD.png"
+        #         ]
+        #         #   images = [
+        #         #     "./fnirs/" + name + "_trial_"+ str(i+1)+"_fNIRs.png",
+        #         #     "./fnirs/" + name + "_trial_"+ str(i+1)+"_fNIRs.png",
+        #         #     "./fnirs/TBD.png"
+        #         # ]
+        #     else:
+        #         images = [
+        #             r"./fnirs/elmo_trial_"+ str(i+1)+"_fNIRs.png",
+        #             r"./fnirs/elmo_trial_"+ str(i+1)+"_fNIRs.png",
+        #             r"./fnirs/elmo_trial_"+ str(i+1)+"_fNIRs.png"
+        #         ]
+        #         # images = [
+        #         #     r"./fnirs/" + name + "_trial_"+ str(i+1)+"_fNIRs.png",
+        #         #     r"./fnirs/" + name + "_trial_"+ str(i+1)+"_fNIRs.png",
+        #         #     r"./fnirs/" + name + "_trial_"+ str(i+1)+"_fNIRs.png"
+        #         # ]
+
+        #     captions = [
+        #         "Trial 1-5",
+        #         "Trial 6-10",
+        #         "Trial 11-15"
+        #     ]
+
+        #     pause_root = tk.Tk()
+        #     pause_root.withdraw()
+        #     win1 = fNIRS_comparison(
+        #         pause_root, images, captions,
+        #         title="fNIRS Comparison",
+        #         fullscreen=True,
+        #         geometry="1200x800+50+50"
+        #     )
+
+        #     win2 = VLCVideoWindow(
+        #         pause_root, video_path,
+        #         title="CounterFactuals",
+        #         geometry="960x540+1300+50"
+        #     )
+
+        #     pause_root.mainloop()
+        #     # fNIRS_comparison(images, captions, title="fNIRS Comparison").run()
 
         # Control mode
         # Group 1 - SC and Performance

@@ -11,6 +11,7 @@ from tkinter import filedialog
 # from scipy import stats
 from config import *
 from game import *
+from drone_traj_opt import *
 
 # animation.rcParams['animation.ffmpeg_path'] = r'C:\Users\bbabb\Desktop\Research\[1] ' \
 #                                               r'Software\ffmpeg-2020-10-31-git-3da35b7cc7-full_build\bin\ffmpeg.exe '
@@ -602,8 +603,8 @@ def save_trial_data(trial,name,data):
             header="Score, Safe_landing, time, self-conf, workload, Control_mode, Position_x, Position_y, speed, attitude")
 
 def save_trial_trajectory_data_csv(trial,name, data):
-    save_path = '../assets/records/trial_data/' + name + '_trial_' + str(trial+1)
-    np.savetxt(save_path + '_trajectory.csv', data, delimiter=',', header ="time,x,y,phi,vx,vy,phi_dot,u1,u2", comments='')
+    save_path = '../assets/records/trial_data/' + name + '_trial_' + str(trial+1) + '_trajectory.csv'
+    np.savetxt(save_path, data, delimiter=',', header ="time,x,y,phi,vx,vy,phi_dot,u1,u2", comments='')
 
 def save_trial_trajectory_data(trial,name,time, x, y, phi, vx, vy, phi_dot, u_a, u_h,control_mode,landing_type):
     save_path = '../assets/records/trial_data/' + name + '_trial_' + str(trial+1)
