@@ -305,7 +305,7 @@ if __name__ == "__main__":
     win1 = fNIRS_comparison(
         root, images1, captions1,
         title="fNIRS Comparison",
-        fullscreen=False,
+        fullscreen=True,
         geometry="1200x800+50+50"
     )
 
@@ -320,31 +320,3 @@ if __name__ == "__main__":
 
     root.mainloop()
 
-
-# -------------------- Example --------------------
-if __name__ == "__main__":
-    root = tk.Tk()
-    root.withdraw()
-
-    images = [
-        r"C:\Users\myuh\Documents\GitHub\Site_Visit_2024_ITSDemo\QuadrotorEnv\fnirs\elmo_trial_5_fNIRs.png",
-        r"C:\Users\myuh\Documents\GitHub\Site_Visit_2024_ITSDemo\QuadrotorEnv\fnirs\TBD.png",
-        r"C:\Users\myuh\Documents\GitHub\Site_Visit_2024_ITSDemo\QuadrotorEnv\fnirs\TBD.png",
-    ]
-    captions = ["Trial 1–5", "Trial 6–10", "Trial 11–15"]
-
-    win1 = fNIRS_comparison(
-        root, images, captions,
-        title="fNIRS Comparison",
-        fullscreen=True,
-    )
-
-    video_path = r"./output/testing_trial_5_trajectory.mp4"
-    win2 = VLCVideoWindow(
-        root,
-        title="Counterfactual",
-        geometry="960x540+1300+50",
-        autoplay_path=video_path if os.path.exists(video_path) else None
-    )
-
-    root.mainloop()

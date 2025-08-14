@@ -183,20 +183,21 @@ def load_multi_game(device='joystick', name='no_name', control_mode=1, self_conf
 
 
 
-        # if (i+1) % 5 == 0 and Pauses:
-        #     print('pause')
-        #     SR_info = SR_Pause(name,np.arange(0,i+1,1)+1, score[0:i+1],sc[0:i+1], w[0:i+1], LearningStage[0:i+1])
-        #     SR_info.plot_SR()
-        #     pause_game(trial_data) 
+        if (i+1) % 5 == 0 and Pauses:
+            print('pause')
+            SR_info = SR_Pause(name,np.arange(0,i+1,1)+1, score[0:i+1],sc[0:i+1], w[0:i+1], LearningStage[0:i+1])
+            SR_info.plot_SR()
+            pause_game(trial_data) 
 
-        #     CF_root = tk.Tk()
-        #     CF_root.geometry("900x540")
-        #     app = TkVLCPlayer(CF_root)
-        #     video_path = r"./output/" + name + "_trial_"+ str(i+1)+"_trajectory.mp4"  # <-- change this    
-        #     media = app.vlc_instance.media_new_path(video_path)
-        #     app.player.set_media(media)
-        #     app.media = media
-        #     app.play() 
+            CF_root = tk.Tk()
+            CF_root.geometry("900x540")
+            app = TkVLCPlayer(CF_root)
+            video_path = r"./output/" + name + "_trial_"+ str(i+1)+"_trajectory.mp4"  # <-- change this    
+            media = app.vlc_instance.media_new_path(video_path)
+            app.player.set_media(media)
+            app.media = media
+            app.play() 
+            CF_root.mainloop()
 
         #     # Start fNIRS comparison UI
         #     if (i+1)/ 5 == 1:

@@ -1,1 +1,1 @@
-You demonstrated a capable understanding of navigating the drone along a smooth trajectory towards the landing area. However, your ending position indicates a need for more precision in landing.
+You demonstrated good control over the drone's trajectory as it navigated towards the landing zone, showing an understanding of the positioning within the required bounds.

@@ -183,7 +183,7 @@ if __name__ == "__main__":
     app = TkVLCPlayer(root)
 
     # Auto-load a file (optional)
-    video_path = r"./output/testing_trial_1_trajectory.mp4"  # <-- change this if desired
+    video_path = r"./output/testing_trial_5_trajectory.mp4"  # <-- change this if desired
     if os.path.exists(video_path):
         media = app.vlc_instance.media_new_path(video_path)
         app.player.set_media(media)

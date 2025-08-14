@@ -1,1 +1,1 @@
-You need to improve in the landing component, as the drone's ending position was far from the landing pad. Increase thrust as needed to slow down when descending towards the landing pad. Reflect on how your speed management can better align the drone with the target area in future flights. This attempt clearly missed the designated area; ensure you control your descent properly next time.
+You did a great job navigating the drone along a smooth trajectory towards the landing pad, which shows commendable control and awareness of the space.
