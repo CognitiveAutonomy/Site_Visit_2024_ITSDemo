@@ -11,6 +11,7 @@ class TkVLCPlayer:
         self.root = root
         self.root.title("Counterfactual")
         self.root.protocol("WM_DELETE_WINDOW", self.on_close)
+        self.is_closed = False  # <-- Track closed state
 
         # Keyboard shortcuts
         self.root.bind("<Escape>", lambda e: self.on_close())
@@ -68,8 +69,11 @@ class TkVLCPlayer:
 
         # Attach video output
         self._set_video_output()
-        # On some platforms (macOS), rebinding after size changes helps
         self.video_panel.bind("<Configure>", lambda e: self._set_video_output())
+
+        # Loop on end
+        self.event_manager = self.player.event_manager()
+        self.event_manager.event_attach(vlc.EventType.MediaPlayerEndReached, self._on_end_reached)
 
         # Poll UI
         self._is_updating = True
@@ -78,6 +82,12 @@ class TkVLCPlayer:
         self._update_ui()
 
     # ---------- Helpers ----------
+    def _on_end_reached(self, event):
+        """Restart video when it reaches the end."""
+        if self.media is not None:
+            self.player.stop()
+            self.player.play()
+
     def _set_video_output(self):
         try:
             handle = self.video_panel.winfo_id()
@@ -167,6 +177,7 @@ class TkVLCPlayer:
 
     def on_close(self):
         self._is_updating = False
+        self.is_closed = True   # <-- Mark as closed
         try:
             self.player.stop()
             self.player.release()
@@ -174,7 +185,6 @@ class TkVLCPlayer:
         except Exception:
             pass
         self.root.destroy()
-
 
 if __name__ == "__main__":
     root = tk.Tk()
@@ -193,3 +203,6 @@ if __name__ == "__main__":
         print("Video file not found:", video_path)
 
     root.mainloop()
+
+    # After window closes
+    print("Video closed:", app.is_closed)  # Boolean result
